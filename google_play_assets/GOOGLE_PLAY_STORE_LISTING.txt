@@ -1,0 +1,306 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║          GOOGLE PLAY CONSOLE — COMPLETE STORE LISTING                       ║
+║          App: CalcPro — Smart Calculator                                     ║
+║          Application ID: com.calcpro.app                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Copy and paste every field below directly into Google Play Console.
+Each section title matches the exact field name you will find in the console.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 1 — APP IDENTITY  (Dashboard ▸ App content)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Application ID (package name — set in your build, cannot be changed):
+  ┌─────────────────────────────────────┐
+  │  com.calcpro.app                    │
+  └─────────────────────────────────────┘
+
+  App name  [max 30 characters — current: 16]:
+  ┌─────────────────────────────────────┐
+  │  CalcPro - Calculator               │
+  └─────────────────────────────────────┘
+
+  Default language:
+  ┌─────────────────────────────────────┐
+  │  English (United States) — en-US    │
+  └─────────────────────────────────────┘
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 2 — STORE LISTING  (Grow ▸ Store presence ▸ Main store listing)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Short description  [max 80 characters — current: 64]:
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  Fast, modern calculator with secure local login & dark design.      │
+  └──────────────────────────────────────────────────────────────────────┘
+
+  Full description  [max 4000 characters — current: ~1100]:
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │                                                                      │
+  │  CalcPro is a beautifully designed calculator app that combines      │
+  │  everyday arithmetic with a secure, private local account system —   │
+  │  all without needing any internet connection or cloud service.       │
+  │                                                                      │
+  │  ── CALCULATOR ──────────────────────────────────────────────────    │
+  │  • Addition, Subtraction, Multiplication, Division                   │
+  │  • Percentage ( % )                                                  │
+  │  • Sign toggle ( +/− )                                               │
+  │  • Backspace / Clear Entry / Full Clear                              │
+  │  • Chain operations (3 + 4 × 2 = ...)                               │
+  │  • Live expression display above the result                         │
+  │  • Haptic feedback on every button press                             │
+  │                                                                      │
+  │  ── SECURE LOCAL ACCOUNTS ───────────────────────────────────────    │
+  │  • Register with username, email, and password                       │
+  │  • Login with username OR email                                      │
+  │  • Passwords hashed with SHA-256 — never stored in plain text        │
+  │  • All data stays 100 % on your device — zero cloud, zero tracking  │
+  │  • Safe logout with one tap from inside the calculator               │
+  │                                                                      │
+  │  ── DESIGN ──────────────────────────────────────────────────────    │
+  │  • Animated splash screen with smooth logo entrance                  │
+  │  • Native splash screen that matches the app theme                   │
+  │  • Beautiful dark navy + purple gradient theme                       │
+  │  • Material 3 design with rounded cards and soft shadows             │
+  │  • Fully portrait-optimised layout                                   │
+  │                                                                      │
+  │  ── PRIVACY & PERMISSIONS ───────────────────────────────────────    │
+  │  CalcPro requests ZERO permissions. It does not access your camera,  │
+  │  contacts, location, microphone, or network. Everything is stored    │
+  │  privately on your own device.                                       │
+  │                                                                      │
+  │  Whether you need a quick daily calculator or want a personal        │
+  │  workspace secured by your own account, CalcPro has you covered.     │
+  │                                                                      │
+  └──────────────────────────────────────────────────────────────────────┘
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 3 — APP CATEGORY  (Main store listing ▸ Categorisation)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  App or Game:          App
+  Category:             Tools
+  Tags (up to 5):       Calculator, Math, Arithmetic, Offline, Utility
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 4 — CONTACT DETAILS  (Main store listing ▸ Contact details)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Email address:    [enter your email, e.g.  ahmedshefo@gmail.com]
+  Phone:            [optional — you can leave this blank]
+  Website:          [optional — leave blank if you don't have one]
+
+  NOTE: Email is required. Google will show it on the store listing.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 5 — PRIVACY POLICY  (App content ▸ Privacy policy)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Google requires a privacy policy URL. Use the text below to create a
+  free policy on a site like:  https://www.privacypolicygenerator.info
+  or paste it into GitHub Gist (gist.github.com) and use the raw URL.
+
+  ── READY-TO-USE PRIVACY POLICY TEXT ─────────────────────────────────────
+
+  Privacy Policy for CalcPro
+  Last updated: March 2026
+
+  CalcPro ("the App") is a free, offline calculator application developed
+  by Ahmed Shiref ("the Developer"). This Privacy Policy explains how the
+  App handles information.
+
+  1. Data Collection
+     CalcPro does NOT collect, transmit, or store any personal data on
+     external servers. All account information (username, email, hashed
+     password) is stored exclusively on the user's own device using
+     Android's local storage (SharedPreferences).
+
+  2. Data Storage
+     - User credentials are stored locally on the device only.
+     - Passwords are hashed using SHA-256 and are never stored in plain text.
+     - No data is sent to the Developer or any third party at any time.
+
+  3. Permissions
+     CalcPro requests no device permissions. It does not access the
+     internet, camera, contacts, location, microphone, or any other
+     sensitive device resource.
+
+  4. Third-Party Services
+     CalcPro does not use any third-party analytics, advertising,
+     or crash reporting services.
+
+  5. Children's Privacy
+     CalcPro does not knowingly collect data from children under 13.
+     Because the App collects no data at all, it is safe for all ages.
+
+  6. Changes to This Policy
+     If this policy is updated, the new version will be published at
+     the same URL and the "last updated" date will change.
+
+  7. Contact
+     For questions, contact: [your email address]
+
+  ─────────────────────────────────────────────────────────────────────────
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 6 — CONTENT RATING  (App content ▸ Content rating)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Answer the content rating questionnaire exactly as follows:
+
+  Category:   Utility / Productivity
+  ─────────────────────────────────────────────────────────────────
+  Question                                           Answer
+  ─────────────────────────────────────────────────────────────────
+  Does the app contain violence?                     No
+  Does the app contain sexual content?               No
+  Does the app contain profanity or crude humour?    No
+  Does the app reference alcohol/tobacco/drugs?      No
+  Does the app contain gambling content?             No
+  Is the app a simulation of gambling?               No
+  Does the app share location data?                  No
+  Does the app target children?                      No
+  Does the app allow user-generated content?         No
+  Is the app a social networking app?                No
+  Does the app include ads?                          No
+  Does the app contain in-app purchases?             No
+  ─────────────────────────────────────────────────────────────────
+
+  Expected rating result:  EVERYONE (E) — suitable for all ages.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 7 — APP CONTENT DECLARATIONS  (App content ▸ various)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Ads:                            The app does not contain ads  →  No
+  In-app purchases / billing:     None  →  No
+  Sensitive permissions:          None used  →  No
+  Financial features:             None  →  No
+  Government app:                 No
+  News app:                       No
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 8 — RELEASE DETAILS  (Release ▸ Production ▸ Create new release)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Release name:
+  ┌─────────────────────────────────────┐
+  │  1.0.0 (1)                          │
+  └─────────────────────────────────────┘
+
+  Release notes  (What's new — shown to users):
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  • First release of CalcPro                                          │
+  │  • Full arithmetic calculator with dark theme                        │
+  │  • Secure local account system (register, login, logout)             │
+  │  • Animated splash screen                                            │
+  │  • Zero internet permissions — your data stays on your device        │
+  └──────────────────────────────────────────────────────────────────────┘
+
+  File to upload:
+    build/app/outputs/bundle/release/app-release.aab  (24.4 MB)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 9 — IMAGES CHECKLIST  (uploaded from google_play_assets/)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Field in Play Console               File to upload
+  ──────────────────────────────────────────────────────────────────────────
+  App icon (512×512 PNG)              icon_512x512.png
+  Feature graphic (1024×500 PNG)      feature_graphic_1024x500.png
+  Phone screenshot 1                  screenshots/01_splash.png
+  Phone screenshot 2                  screenshots/02_login.png
+  Phone screenshot 3                  screenshots/03_register.png
+  Phone screenshot 4                  screenshots/04_calculator.png
+  ──────────────────────────────────────────────────────────────────────────
+  All images are in RGBA PNG format, within the 1024 KB per-image limit.
+  Minimum 2 screenshots required — you have 4. ✓
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 10 — PRICING  (Monetise ▸ Pricing)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Paid or free:    Free
+  Countries:       Make available in all countries (or select specific ones)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 11 — SIGNING KEY DETAILS  (keep for your own records)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Keystore file:      android/app/calcpro-release.jks
+  Key alias:          calcpro
+  Store password:     123456
+  Key password:       123456
+  Validity:           10,000 days  (expires ~2053)
+  Owner:              CN=ahmed shiref, OU=shefo, O=shefo, L=cairo, ST=cairo, C=eg
+  SHA-256 fingerprint:
+    61:6B:87:58:73:70:D6:5A:B1:07:D9:48:BF:B5:E1:FF:
+    9B:21:9A:D3:74:56:BA:B6:DE:88:66:19:69:68:14:B6
+
+  ⚠️  IMPORTANT:  Back up calcpro-release.jks somewhere safe (USB drive,
+  cloud storage outside this repo).  If you lose this file you can NEVER
+  update your app on Google Play. Google will reject any update signed
+  with a different key.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP-BY-STEP UPLOAD GUIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1.  Go to https://play.google.com/console
+  2.  Sign in with your Google account.
+  3.  Click "Create app" (top right).
+  4.  Fill in:
+        App name:          CalcPro - Calculator
+        Default language:  English (United States)
+        App or game:       App
+        Free or paid:      Free
+      → Tick both policy checkboxes → Click "Create app"
+
+  5.  LEFT MENU: Grow ▸ Store presence ▸ Main store listing
+      → Paste short description, full description
+      → Upload icon_512x512.png as the App icon
+      → Upload feature_graphic_1024x500.png as the Feature graphic
+      → Upload the 4 screenshots in the "Phone" section
+      → Fill Contact email
+
+  6.  LEFT MENU: App content ▸ Privacy policy
+      → Paste the privacy policy URL (from GitHub Gist or your website)
+
+  7.  LEFT MENU: App content ▸ Content rating
+      → Click "Start questionnaire" → choose "Utility" → answer all No
+      → Click "Save" — you will receive the EVERYONE (E) rating
+
+  8.  LEFT MENU: App content ▸ Ads
+      → Select "No, my app does not contain ads"
+
+  9.  LEFT MENU: App content ▸ App access
+      → If all features are accessible without login: "All or most features
+        accessible" — BUT since your app requires login, select
+        "All or most features are restricted" and add instructions:
+          Username: testuser
+          Password: test123
+        (First register this account on your device, then note it here)
+
+  10. LEFT MENU: Release ▸ Production ▸ Create new release
+      → Upload:  build/app/outputs/bundle/release/app-release.aab
+      → Release name:  1.0.0 (1)
+      → Paste the "What's new" text from Section 8 above
+      → Click "Review release" → "Start rollout to production"
+
+  That's it — Google will review the app (usually 1–3 days for first
+  submission) and then publish it on the Play Store.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
