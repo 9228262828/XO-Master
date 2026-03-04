@@ -35,24 +35,25 @@ android {
         versionName = flutter.versionName
     }
 
-    if (keyPropertiesFile.exists()) {
-        signingConfigs {
-            create("release") {
-                keyAlias = keyProperties["keyAlias"] as String
-                keyPassword = keyProperties["keyPassword"] as String
-                storeFile = file(keyProperties["storeFile"] as String)
-                storePassword = keyProperties["storePassword"] as String
+    signingConfigs {
+        create("release") {
+            if (!keyPropertiesFile.exists()) {
+                throw GradleException(
+                    "Missing android/key.properties. " +
+                    "Create it with storeFile, storePassword, keyAlias, and keyPassword " +
+                    "before building a release bundle. See android/key.properties.example."
+                )
             }
+            keyAlias = keyProperties["keyAlias"] as String
+            keyPassword = keyProperties["keyPassword"] as String
+            storeFile = file(keyProperties["storeFile"] as String)
+            storePassword = keyProperties["storePassword"] as String
         }
     }
 
     buildTypes {
         release {
-            signingConfig = if (keyPropertiesFile.exists()) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
-            }
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             isShrinkResources = false
         }
