@@ -277,7 +277,7 @@ class _PeriodTab extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: AppTextStyles.labelMedium.copyWith(
-              color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
             ),
           ),
@@ -333,7 +333,7 @@ class _StatCard extends StatelessWidget {
           Text(
             label,
             style: AppTextStyles.labelSmall.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.5),
+              color: colorScheme.onSurface.withValues(alpha: 0.5),
             ),
           ),
         ],
@@ -373,7 +373,7 @@ class _CategoryBreakdownTile extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: item.category.color.withOpacity(0.15),
+              color: item.category.color.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(item.category.icon, color: item.category.color, size: 20),
@@ -395,7 +395,7 @@ class _CategoryBreakdownTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
                     value: item.percentage / 100,
-                    backgroundColor: item.category.color.withOpacity(0.15),
+                    backgroundColor: item.category.color.withValues(alpha: 0.15),
                     color: item.category.color,
                     minHeight: 4,
                   ),
@@ -417,7 +417,7 @@ class _CategoryBreakdownTile extends StatelessWidget {
               Text(
                 '${item.percentage.toStringAsFixed(1)}%',
                 style: AppTextStyles.labelSmall.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.5),
+                  color: colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               ),
             ],

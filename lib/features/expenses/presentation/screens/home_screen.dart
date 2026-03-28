@@ -108,7 +108,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
               Text(
                 'Good ${_greeting()}!',
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.6),
+                  color: colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
               Text(
@@ -250,7 +250,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                               child: Text(
                                 AppDateUtils.relativeDate(expense.date),
                                 style: AppTextStyles.labelMedium.copyWith(
-                                  color: colorScheme.onSurface.withOpacity(0.5),
+                                  color: colorScheme.onSurface.withValues(alpha: 0.5),
                                 ),
                               ),
                             ),
@@ -298,9 +298,9 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.08),
+        color: AppColors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withOpacity(0.15)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
@@ -308,7 +308,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.15),
+              color: AppColors.primary.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Icon(Icons.lightbulb_outline_rounded, color: AppColors.primary, size: 18),
@@ -326,7 +326,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                 Text(
                   'Daily avg: \$${dailyAvg.toStringAsFixed(2)} · Projected: \$${projectedMonthly.toStringAsFixed(0)}/mo',
                   style: AppTextStyles.bodySmall.copyWith(
-                    color: colorScheme.onSurface.withOpacity(0.7),
+                    color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
               ],

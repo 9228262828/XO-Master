@@ -1,5 +1,4 @@
 import '../../../categories/domain/entities/category.dart';
-import '../../../expenses/domain/entities/expense.dart';
 import '../../../expenses/domain/repositories/expense_repository.dart';
 import '../../../categories/domain/repositories/category_repository.dart';
 

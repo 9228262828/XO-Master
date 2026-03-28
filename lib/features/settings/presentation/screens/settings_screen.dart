@@ -116,7 +116,7 @@ class _SettingsSection extends StatelessWidget {
           child: Text(
             title.toUpperCase(),
             style: AppTextStyles.labelSmall.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.5),
+              color: colorScheme.onSurface.withValues(alpha: 0.5),
               letterSpacing: 1,
             ),
           ),
@@ -144,13 +144,12 @@ class _ThemeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return ListTile(
       leading: Container(
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.primary.withOpacity(0.1),
+          color: AppColors.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.palette_rounded, color: AppColors.primary, size: 20),
@@ -192,7 +191,7 @@ class _ThemeTile extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -242,7 +241,7 @@ class _CurrencyTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.success.withOpacity(0.1),
+          color: AppColors.success.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.attach_money_rounded, color: AppColors.success, size: 20),
@@ -278,7 +277,7 @@ class _CurrencyTile extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -332,7 +331,7 @@ class _LanguageTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.secondary.withOpacity(0.1),
+          color: AppColors.secondary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.language_rounded, color: AppColors.secondary, size: 20),
@@ -363,7 +362,7 @@ class _LanguageTile extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -405,7 +404,7 @@ class _NotificationTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.warning.withOpacity(0.1),
+          color: AppColors.warning.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.notifications_outlined, color: AppColors.warning, size: 20),
@@ -435,7 +434,7 @@ class _ReminderTimeTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.warning.withOpacity(0.1),
+          color: AppColors.warning.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.access_time_rounded, color: AppColors.warning, size: 20),
@@ -472,7 +471,7 @@ class _ExportTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.primary.withOpacity(0.1),
+          color: AppColors.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.download_rounded, color: AppColors.primary, size: 20),

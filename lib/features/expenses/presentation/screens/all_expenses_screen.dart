@@ -152,7 +152,7 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
                 child: Text(
                   AppDateUtils.relativeDate(expense.date),
                   style: AppTextStyles.labelMedium.copyWith(
-                    color: colorScheme.onSurface.withOpacity(0.5),
+                    color: colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
               ),

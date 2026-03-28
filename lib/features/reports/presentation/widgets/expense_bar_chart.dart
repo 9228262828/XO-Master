@@ -17,7 +17,7 @@ class WeeklyBarChart extends StatelessWidget {
     if (data.isEmpty) {
       return Center(
         child: Text('No data', style: AppTextStyles.bodyMedium.copyWith(
-          color: colorScheme.onSurface.withOpacity(0.5),
+          color: colorScheme.onSurface.withValues(alpha: 0.5),
         )),
       );
     }
@@ -56,7 +56,7 @@ class WeeklyBarChart extends StatelessWidget {
                   child: Text(
                     AppDateUtils.formatWeekday(data[index].date),
                     style: AppTextStyles.labelSmall.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.5),
+                      color: colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                   ),
                 );
@@ -71,7 +71,7 @@ class WeeklyBarChart extends StatelessWidget {
           drawVerticalLine: false,
           horizontalInterval: adjustedMax / 4,
           getDrawingHorizontalLine: (value) => FlLine(
-            color: colorScheme.onSurface.withOpacity(0.08),
+            color: colorScheme.onSurface.withValues(alpha: 0.08),
             strokeWidth: 1,
           ),
         ),
@@ -82,7 +82,7 @@ class WeeklyBarChart extends StatelessWidget {
             barRods: [
               BarChartRodData(
                 toY: entry.value.total > 0 ? entry.value.total : 0.1,
-                color: isToday ? AppColors.primary : AppColors.primary.withOpacity(0.4),
+                color: isToday ? AppColors.primary : AppColors.primary.withValues(alpha: 0.4),
                 width: 28,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
               ),
@@ -106,7 +106,7 @@ class MonthlyLineChart extends StatelessWidget {
     if (data.isEmpty) {
       return Center(
         child: Text('No data', style: AppTextStyles.bodyMedium.copyWith(
-          color: colorScheme.onSurface.withOpacity(0.5),
+          color: colorScheme.onSurface.withValues(alpha: 0.5),
         )),
       );
     }
@@ -144,7 +144,7 @@ class MonthlyLineChart extends StatelessWidget {
                   child: Text(
                     AppDateUtils.formatMonthShort(data[index].month),
                     style: AppTextStyles.labelSmall.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.5),
+                      color: colorScheme.onSurface.withValues(alpha: 0.5),
                       fontSize: 10,
                     ),
                   ),
@@ -160,7 +160,7 @@ class MonthlyLineChart extends StatelessWidget {
           drawVerticalLine: false,
           horizontalInterval: adjustedMax / 4,
           getDrawingHorizontalLine: (value) => FlLine(
-            color: colorScheme.onSurface.withOpacity(0.08),
+            color: colorScheme.onSurface.withValues(alpha: 0.08),
             strokeWidth: 1,
           ),
         ),
@@ -190,8 +190,8 @@ class MonthlyLineChart extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.primary.withOpacity(0.3),
-                  AppColors.primary.withOpacity(0.0),
+                  AppColors.primary.withValues(alpha: 0.3),
+                  AppColors.primary.withValues(alpha: 0.0),
                 ],
               ),
             ),

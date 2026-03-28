@@ -229,7 +229,7 @@ class _AmountField extends StatelessWidget {
           Text(
             'Amount',
             style: AppTextStyles.labelLarge.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.6),
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 12),
@@ -298,7 +298,7 @@ class _CategorySelector extends StatelessWidget {
           child: Text(
             'Category',
             style: AppTextStyles.labelLarge.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.6),
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ),
@@ -318,7 +318,7 @@ class _CategorySelector extends StatelessWidget {
                   width: 72,
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? category.color.withOpacity(0.15)
+                        ? category.color.withValues(alpha: 0.15)
                         : isDark
                             ? AppColors.darkSurface
                             : AppColors.lightSurface,
@@ -337,7 +337,7 @@ class _CategorySelector extends StatelessWidget {
                     children: [
                       Icon(
                         category.icon,
-                        color: isSelected ? category.color : colorScheme.onSurface.withOpacity(0.5),
+                        color: isSelected ? category.color : colorScheme.onSurface.withValues(alpha: 0.5),
                         size: 22,
                       ),
                       const SizedBox(height: 4),
@@ -346,7 +346,7 @@ class _CategorySelector extends StatelessWidget {
                         style: AppTextStyles.labelSmall.copyWith(
                           color: isSelected
                               ? category.color
-                              : colorScheme.onSurface.withOpacity(0.5),
+                              : colorScheme.onSurface.withValues(alpha: 0.5),
                           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                         ),
                         textAlign: TextAlign.center,
@@ -408,7 +408,7 @@ class _DateSelector extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(Icons.calendar_today_rounded, color: AppColors.primary, size: 18),
@@ -420,7 +420,7 @@ class _DateSelector extends StatelessWidget {
                 Text(
                   'Date',
                   style: AppTextStyles.labelSmall.copyWith(
-                    color: colorScheme.onSurface.withOpacity(0.5),
+                    color: colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
                 Text(
@@ -435,7 +435,7 @@ class _DateSelector extends StatelessWidget {
             const Spacer(),
             Icon(
               Icons.chevron_right_rounded,
-              color: colorScheme.onSurface.withOpacity(0.3),
+              color: colorScheme.onSurface.withValues(alpha: 0.3),
             ),
           ],
         ),

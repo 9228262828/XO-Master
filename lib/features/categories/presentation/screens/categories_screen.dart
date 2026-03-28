@@ -115,7 +115,7 @@ class _CategoriesContent extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: category.color.withOpacity(0.15),
+                color: category.color.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(category.icon, color: category.color, size: 22),
@@ -131,14 +131,14 @@ class _CategoriesContent extends StatelessWidget {
                 ? Text(
                     'Default',
                     style: AppTextStyles.labelSmall.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.4),
+                      color: colorScheme.onSurface.withValues(alpha: 0.4),
                     ),
                   )
                 : null,
             trailing: PopupMenuButton<String>(
               icon: Icon(
                 Icons.more_vert_rounded,
-                color: colorScheme.onSurface.withOpacity(0.4),
+                color: colorScheme.onSurface.withValues(alpha: 0.4),
               ),
               onSelected: (value) async {
                 if (value == 'edit') {
@@ -275,7 +275,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: colorScheme.onSurface.withOpacity(0.2),
+              color: colorScheme.onSurface.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -298,7 +298,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
             child: Text(
               'Color',
               style: AppTextStyles.labelLarge.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -326,7 +326,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
                         width: 3,
                       ),
                       boxShadow: isSelected
-                          ? [BoxShadow(color: color.withOpacity(0.5), blurRadius: 8)]
+                          ? [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 8)]
                           : null,
                     ),
                     child: isSelected
@@ -343,7 +343,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
             child: Text(
               'Icon',
               style: AppTextStyles.labelLarge.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -367,7 +367,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
                     duration: const Duration(milliseconds: 200),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? _selectedColor.withOpacity(0.15)
+                          ? _selectedColor.withValues(alpha: 0.15)
                           : isDark
                               ? AppColors.darkSurfaceVariant
                               : AppColors.lightSurfaceVariant,
@@ -379,7 +379,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
                     ),
                     child: Icon(
                       icon,
-                      color: isSelected ? _selectedColor : colorScheme.onSurface.withOpacity(0.5),
+                      color: isSelected ? _selectedColor : colorScheme.onSurface.withValues(alpha: 0.5),
                       size: 22,
                     ),
                   ),

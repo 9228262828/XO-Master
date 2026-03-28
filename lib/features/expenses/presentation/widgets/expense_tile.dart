@@ -37,7 +37,7 @@ class ExpenseTile extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
         decoration: BoxDecoration(
-          color: AppColors.error.withOpacity(0.15),
+          color: AppColors.error.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(16),
         ),
         child: const Icon(Icons.delete_outline_rounded, color: AppColors.error, size: 24),
@@ -65,7 +65,7 @@ class ExpenseTile extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: categoryColor.withOpacity(0.15),
+                  color: categoryColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
@@ -96,7 +96,7 @@ class ExpenseTile extends StatelessWidget {
                               ? AppDateUtils.relativeDate(expense.date)
                               : 'No note',
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.5),
+                        color: colorScheme.onSurface.withValues(alpha: 0.5),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -119,7 +119,7 @@ class ExpenseTile extends StatelessWidget {
                     Text(
                       AppDateUtils.formatDateShort(expense.date),
                       style: AppTextStyles.labelSmall.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.4),
+                        color: colorScheme.onSurface.withValues(alpha: 0.4),
                       ),
                     ),
                   ],
