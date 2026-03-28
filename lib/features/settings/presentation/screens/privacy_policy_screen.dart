@@ -9,7 +9,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
   static const String _contactEmail = 'privacy@spendwise.app';
-  static const String _websiteUrl = 'https://9228262828.github.io/cal/privacy/';
+  static const String _websiteUrl = 'https://9228262828.github.io/SpendWise/privacy/';
 
   @override
   Widget build(BuildContext context) {
