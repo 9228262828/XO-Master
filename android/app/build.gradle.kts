@@ -36,24 +36,27 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            if (!keyPropertiesFile.exists()) {
-                throw GradleException(
-                    "Missing android/key.properties. " +
-                    "Create it with storeFile, storePassword, keyAlias, and keyPassword " +
-                    "before building a release bundle. See android/key.properties.example."
-                )
+        if (keyPropertiesFile.exists()) {
+            create("release") {
+                keyAlias = keyProperties["keyAlias"] as String
+                keyPassword = keyProperties["keyPassword"] as String
+                storeFile = file(keyProperties["storeFile"] as String)
+                storePassword = keyProperties["storePassword"] as String
             }
-            keyAlias = keyProperties["keyAlias"] as String
-            keyPassword = keyProperties["keyPassword"] as String
-            storeFile = file(keyProperties["storeFile"] as String)
-            storePassword = keyProperties["storePassword"] as String
         }
     }
 
     buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("release")
+        getByName("debug") {
+            // uses Flutter's default debug signing — no key.properties needed
+        }
+        getByName("release") {
+            if (keyPropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                // Fall back to debug signing if key.properties is absent
+                signingConfig = signingConfigs.getByName("debug")
+            }
             isMinifyEnabled = false
             isShrinkResources = false
         }
