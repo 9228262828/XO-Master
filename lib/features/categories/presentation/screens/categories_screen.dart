@@ -258,156 +258,180 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
     final isEditing = widget.categoryToEdit != null;
+    final l = AppLocalizations.of(context)!;
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 12,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+      // Use a fixed max-height so the sheet never overflows the screen.
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.88,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: colorScheme.onSurface.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            isEditing
-                ? AppLocalizations.of(context)!.edit
-                : AppLocalizations.of(context)!.addCategory,
-            style: AppTextStyles.headlineSmall.copyWith(color: colorScheme.onSurface),
-          ),
-          const SizedBox(height: 24),
-          TextField(
-            controller: _nameController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.categoryName,
-              prefixIcon: const Icon(Icons.label_outline_rounded, size: 20),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Color',
-              style: AppTextStyles.labelLarge.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.6),
+          // Handle bar
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 4),
+            child: Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: colorScheme.onSurface.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(2),
               ),
             ),
           ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 44,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: AppColors.categoryColors.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (_, index) {
-                final color = AppColors.categoryColors[index];
-                final isSelected = color.toARGB32() == _selectedColor.toARGB32();
-                return GestureDetector(
-                  onTap: () => setState(() => _selectedColor = color),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: color,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isSelected ? Colors.white : Colors.transparent,
-                        width: 3,
-                      ),
-                      boxShadow: isSelected
-                          ? [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 8)]
-                          : null,
-                    ),
-                    child: isSelected
-                        ? const Icon(Icons.check_rounded, color: Colors.white, size: 18)
-                        : null,
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Icon',
-              style: AppTextStyles.labelLarge.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.6),
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 108,
-            child: GridView.builder(
-              scrollDirection: Axis.horizontal,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-              ),
-              itemCount: _icons.length,
-              itemBuilder: (_, index) {
-                final icon = _icons[index];
-                final isSelected = icon.codePoint == _selectedIcon.codePoint;
-                return GestureDetector(
-                  onTap: () => setState(() => _selectedIcon = icon),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? _selectedColor.withValues(alpha: 0.15)
-                          : isDark
-                              ? AppColors.darkSurfaceVariant
-                              : AppColors.lightSurfaceVariant,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: isSelected ? _selectedColor : Colors.transparent,
-                        width: 2,
-                      ),
-                    ),
-                    child: Icon(
-                      icon,
-                      color: isSelected ? _selectedColor : colorScheme.onSurface.withValues(alpha: 0.5),
-                      size: 22,
+          // Scrollable content
+          Flexible(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(20, 16, 20, bottomInset + 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      isEditing ? l.edit : l.addCategory,
+                      style: AppTextStyles.headlineSmall
+                          .copyWith(color: colorScheme.onSurface),
                     ),
                   ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _submit,
-              child: _isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: Colors.white,
+                  const SizedBox(height: 24),
+                  TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: l.categoryName,
+                      prefixIcon:
+                          const Icon(Icons.label_outline_rounded, size: 20),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    l.selectColor,
+                    style: AppTextStyles.labelLarge.copyWith(
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 44,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: AppColors.categoryColors.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 8),
+                      itemBuilder: (_, index) {
+                        final color = AppColors.categoryColors[index];
+                        final isSel =
+                            color.toARGB32() == _selectedColor.toARGB32();
+                        return GestureDetector(
+                          onTap: () => setState(() => _selectedColor = color),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: color,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isSel
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                width: 3,
+                              ),
+                              boxShadow: isSel
+                                  ? [
+                                      BoxShadow(
+                                          color: color.withValues(alpha: 0.5),
+                                          blurRadius: 8)
+                                    ]
+                                  : null,
+                            ),
+                            child: isSel
+                                ? const Icon(Icons.check_rounded,
+                                    color: Colors.white, size: 18)
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    l.selectIcon,
+                    style: AppTextStyles.labelLarge.copyWith(
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 116,
+                    child: GridView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
                       ),
-                    )
-                  : Text(isEditing
-                      ? AppLocalizations.of(context)!.save
-                      : AppLocalizations.of(context)!.addCategory),
+                      itemCount: _icons.length,
+                      itemBuilder: (_, index) {
+                        final icon = _icons[index];
+                        final isSel =
+                            icon.codePoint == _selectedIcon.codePoint;
+                        return GestureDetector(
+                          onTap: () => setState(() => _selectedIcon = icon),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            decoration: BoxDecoration(
+                              color: isSel
+                                  ? _selectedColor.withValues(alpha: 0.15)
+                                  : isDark
+                                      ? AppColors.darkSurfaceVariant
+                                      : AppColors.lightSurfaceVariant,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: isSel
+                                    ? _selectedColor
+                                    : Colors.transparent,
+                                width: 2,
+                              ),
+                            ),
+                            child: Icon(
+                              icon,
+                              color: isSel
+                                  ? _selectedColor
+                                  : colorScheme.onSurface
+                                      .withValues(alpha: 0.5),
+                              size: 22,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _submit,
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(isEditing ? l.save : l.addCategory),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

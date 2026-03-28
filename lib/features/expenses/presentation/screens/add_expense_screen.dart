@@ -17,16 +17,39 @@ import '../../domain/entities/expense.dart';
 import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
 
-class AddExpenseScreen extends StatefulWidget {
+/// Thin wrapper — provides BLoCs, then delegates to [_AddExpenseForm].
+/// Keeping providers here (outside the State) ensures State.context
+/// is always a descendant of MultiBlocProvider, so context.read() works.
+class AddExpenseScreen extends StatelessWidget {
   const AddExpenseScreen({super.key, this.expenseToEdit});
 
   final Expense? expenseToEdit;
 
   @override
-  State<AddExpenseScreen> createState() => _AddExpenseScreenState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<ExpenseCubit>()..loadExpenses()),
+        BlocProvider(create: (_) => sl<CategoryCubit>()..loadCategories()),
+      ],
+      child: _AddExpenseForm(expenseToEdit: expenseToEdit),
+    );
+  }
 }
 
-class _AddExpenseScreenState extends State<AddExpenseScreen> {
+// ─────────────────────────────────────────────────────────────────────────────
+// The actual form — now a direct child of MultiBlocProvider, so
+// State.context IS inside the provider tree.
+// ─────────────────────────────────────────────────────────────────────────────
+class _AddExpenseForm extends StatefulWidget {
+  const _AddExpenseForm({this.expenseToEdit});
+  final Expense? expenseToEdit;
+
+  @override
+  State<_AddExpenseForm> createState() => _AddExpenseFormState();
+}
+
+class _AddExpenseFormState extends State<_AddExpenseForm> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
@@ -57,93 +80,85 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => sl<ExpenseCubit>()..loadExpenses()),
-        BlocProvider(create: (_) => sl<CategoryCubit>()..loadCategories()),
-      ],
-      child: BlocListener<ExpenseCubit, ExpenseState>(
-        listener: (context, state) {
-          if (state is ExpenseOperationSuccess) {
-            context.pop();
-          } else if (state is ExpenseError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: AppColors.error,
-              ),
-            );
-            setState(() => _isLoading = false);
-          }
-        },
-        child: _buildScaffold(context),
-      ),
-    );
-  }
-
-  Widget _buildScaffold(BuildContext context) {
+    // context here is a descendant of MultiBlocProvider — safe to use.
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
-      appBar: AppBar(
-        title: Text(_isEditing
-            ? AppLocalizations.of(context)!.editExpense
-            : AppLocalizations.of(context)!.addExpense),
-        centerTitle: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, size: 20),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
-          if (_isEditing)
-            IconButton(
-              icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
-              onPressed: _confirmDelete,
+    return BlocListener<ExpenseCubit, ExpenseState>(
+      listener: (ctx, state) {
+        if (state is ExpenseOperationSuccess) {
+          ctx.pop();
+        } else if (state is ExpenseError) {
+          ScaffoldMessenger.of(ctx).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: AppColors.error,
             ),
-        ],
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              _AmountField(controller: _amountController),
-              const SizedBox(height: 20),
-              BlocBuilder<CategoryCubit, CategoryState>(
-                builder: (context, state) {
-                  final categories = state is CategoryLoaded ? state.categories : <Category>[];
-                  if (_selectedCategoryId == null && categories.isNotEmpty) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (mounted) setState(() => _selectedCategoryId = categories.first.id);
-                    });
-                  }
-                  return _CategorySelector(
-                    categories: categories,
-                    selectedId: _selectedCategoryId,
-                    onSelected: (id) => setState(() => _selectedCategoryId = id),
-                  );
-                },
+          );
+          setState(() => _isLoading = false);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        appBar: AppBar(
+          title: Text(_isEditing ? l.editExpense : l.addExpense),
+          centerTitle: false,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_rounded, size: 20),
+            onPressed: () => context.pop(),
+          ),
+          actions: [
+            if (_isEditing)
+              IconButton(
+                icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
+                onPressed: _confirmDelete,
               ),
-              const SizedBox(height: 20),
-              _DateSelector(
-                date: _selectedDate,
-                onChanged: (date) => setState(() => _selectedDate = date),
-              ),
-              const SizedBox(height: 20),
-              _NoteField(controller: _noteController),
-              const SizedBox(height: 32),
-              AppButton(
-                label: _isEditing
-                    ? AppLocalizations.of(context)!.editExpense
-                    : AppLocalizations.of(context)!.addExpense,
-                onPressed: _isLoading ? null : _submit,
-                isLoading: _isLoading,
-                icon: _isEditing ? Icons.check_rounded : Icons.add_rounded,
-              ),
-            ],
+          ],
+        ),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                _AmountField(controller: _amountController),
+                const SizedBox(height: 20),
+                BlocBuilder<CategoryCubit, CategoryState>(
+                  builder: (context, state) {
+                    final categories =
+                        state is CategoryLoaded ? state.categories : <Category>[];
+                    if (_selectedCategoryId == null && categories.isNotEmpty) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) {
+                          setState(() => _selectedCategoryId = categories.first.id);
+                        }
+                      });
+                    }
+                    return _CategorySelector(
+                      categories: categories,
+                      selectedId: _selectedCategoryId,
+                      onSelected: (id) => setState(() => _selectedCategoryId = id),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _DateSelector(
+                  date: _selectedDate,
+                  onChanged: (date) => setState(() => _selectedDate = date),
+                ),
+                const SizedBox(height: 20),
+                _NoteField(controller: _noteController),
+                const SizedBox(height: 32),
+                AppButton(
+                  label: _isEditing ? l.editExpense : l.addExpense,
+                  onPressed: _isLoading ? null : _submit,
+                  isLoading: _isLoading,
+                  icon: _isEditing ? Icons.check_rounded : Icons.add_rounded,
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -154,14 +169,15 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedCategoryId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a category')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.category)),
       );
       return;
     }
 
     setState(() => _isLoading = true);
     final amount = double.parse(_amountController.text.replaceAll(',', ''));
-    final note = _noteController.text.trim().isEmpty ? null : _noteController.text.trim();
+    final note =
+        _noteController.text.trim().isEmpty ? null : _noteController.text.trim();
 
     if (_isEditing) {
       context.read<ExpenseCubit>().updateExpense(
@@ -210,9 +226,12 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  Sub-widgets
+// ─────────────────────────────────────────────────────────────────────────────
+
 class _AmountField extends StatelessWidget {
   const _AmountField({required this.controller});
-
   final TextEditingController controller;
 
   @override
@@ -345,7 +364,9 @@ class _CategorySelector extends StatelessWidget {
                     children: [
                       Icon(
                         category.icon,
-                        color: isSelected ? category.color : colorScheme.onSurface.withValues(alpha: 0.5),
+                        color: isSelected
+                            ? category.color
+                            : colorScheme.onSurface.withValues(alpha: 0.5),
                         size: 22,
                       ),
                       const SizedBox(height: 4),
@@ -355,7 +376,8 @@ class _CategorySelector extends StatelessWidget {
                           color: isSelected
                               ? category.color
                               : colorScheme.onSurface.withValues(alpha: 0.5),
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                          fontWeight:
+                              isSelected ? FontWeight.w600 : FontWeight.w400,
                         ),
                         textAlign: TextAlign.center,
                         maxLines: 1,
@@ -393,7 +415,8 @@ class _DateSelector extends StatelessWidget {
           lastDate: DateTime.now(),
           builder: (ctx, child) => Theme(
             data: Theme.of(ctx).copyWith(
-              colorScheme: Theme.of(ctx).colorScheme.copyWith(primary: AppColors.primary),
+              colorScheme:
+                  Theme.of(ctx).colorScheme.copyWith(primary: AppColors.primary),
             ),
             child: child!,
           ),
@@ -419,28 +442,32 @@ class _DateSelector extends StatelessWidget {
                 color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(Icons.calendar_today_rounded, color: AppColors.primary, size: 18),
+              child: const Icon(Icons.calendar_today_rounded,
+                  color: AppColors.primary, size: 18),
             ),
             const SizedBox(width: 14),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              Text(
-                AppLocalizations.of(context)!.date,
-                style: AppTextStyles.labelSmall.copyWith(
-                    color: colorScheme.onSurface.withValues(alpha: 0.5),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.date,
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: colorScheme.onSurface.withValues(alpha: 0.5),
+                    ),
                   ),
-                ),
-                Text(
-                  AppDateUtils.formatDateFull(date),
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: colorScheme.onSurface,
-                    fontWeight: FontWeight.w500,
+                  Text(
+                    AppDateUtils.formatDateFull(date),
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: colorScheme.onSurface,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            const Spacer(),
             Icon(
               Icons.chevron_right_rounded,
               color: colorScheme.onSurface.withValues(alpha: 0.3),
@@ -454,12 +481,12 @@ class _DateSelector extends StatelessWidget {
 
 class _NoteField extends StatelessWidget {
   const _NoteField({required this.controller});
-
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l = AppLocalizations.of(context)!;
     return TextFormField(
       controller: controller,
       maxLines: 3,
@@ -467,7 +494,7 @@ class _NoteField extends StatelessWidget {
       textInputAction: TextInputAction.done,
       style: AppTextStyles.bodyMedium,
       decoration: InputDecoration(
-        labelText: '${AppLocalizations.of(context)!.note} (${AppLocalizations.of(context)!.optional})',
+        labelText: '${l.note} (${l.optional})',
         prefixIcon: const Icon(Icons.notes_rounded, size: 20),
         filled: true,
         fillColor: isDark ? AppColors.darkSurface : AppColors.lightSurface,
