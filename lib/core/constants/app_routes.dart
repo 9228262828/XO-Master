@@ -7,6 +7,7 @@ import '../../features/categories/presentation/screens/categories_screen.dart';
 import '../../features/reports/presentation/screens/reports_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/settings/presentation/screens/privacy_policy_screen.dart';
+import '../../features/settings/presentation/screens/terms_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../widgets/main_scaffold.dart';
 
@@ -22,6 +23,7 @@ class AppRoutes {
   static const String reports       = '/reports';
   static const String settings      = '/settings';
   static const String privacyPolicy = '/privacy-policy';
+  static const String terms         = '/terms';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -79,6 +81,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.privacyPolicy,
       builder: (context, state) => const PrivacyPolicyScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.terms,
+      builder: (context, state) => const TermsScreen(),
     ),
   ],
 );

@@ -5,11 +5,11 @@ import '../../../../core/constants/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
-class PrivacyPolicyScreen extends StatelessWidget {
-  const PrivacyPolicyScreen({super.key});
+class TermsScreen extends StatelessWidget {
+  const TermsScreen({super.key});
 
-  static const String _contactEmail = 'privacy@spendwise.app';
-  static const String _websiteUrl = 'https://spendwise.app/privacy';
+  static const String _contactEmail = 'legal@spendwise.app';
+  static const String _websiteUrl = 'https://spendwise.app/terms';
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Privacy Policy'),
+        title: const Text('Terms & Conditions'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded, size: 20),
           onPressed: () => context.pop(),
@@ -27,35 +27,35 @@ class PrivacyPolicyScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
         children: [
-          _buildHeader(context, isDark),
+          _buildHeader(context),
           const SizedBox(height: 24),
-          ..._sections.map((s) => _PolicySection(
+          ..._sections.map((s) => _TermsSection(
                 title: s['title']!,
                 body: s['body']!,
                 isDark: isDark,
                 colorScheme: colorScheme,
               )),
 
-          // ── Contact section with tappable links ──────────────────────────
+          // Contact section
           const SizedBox(height: 8),
           _buildContactSection(context, isDark, colorScheme),
           const SizedBox(height: 16),
 
-          // ── Link to Terms & Conditions ────────────────────────────────────
-          _buildTermsLink(context, isDark, colorScheme),
+          // Link back to Privacy Policy
+          _buildPrivacyLink(context, isDark, colorScheme),
         ],
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context, bool isDark) {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF4ADE80), Color(0xFF16A34A)],
+          colors: [Color(0xFF6366F1), Color(0xFF4F46E5)],
         ),
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
@@ -69,16 +69,16 @@ class PrivacyPolicyScreen extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(Icons.shield_outlined, color: Colors.white, size: 26),
+            child: const Icon(Icons.gavel_rounded, color: Colors.white, size: 26),
           ),
           const SizedBox(height: 16),
           Text(
-            'Your Privacy Matters',
+            'Terms & Conditions',
             style: AppTextStyles.headlineMedium.copyWith(color: Colors.white),
           ),
           const SizedBox(height: 6),
           Text(
-            'SpendWise is built with a privacy-first approach. All your data stays on your device — we never collect, sell, or share your personal information.',
+            'By downloading and using SpendWise, you agree to these terms. Please read them carefully before using the app.',
             style: AppTextStyles.bodyMedium
                 .copyWith(color: Colors.white.withValues(alpha: 0.9)),
           ),
@@ -89,7 +89,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   size: 12, color: Colors.white.withValues(alpha: 0.7)),
               const SizedBox(width: 6),
               Text(
-                'Last updated: March 2025  •  Version 1.0',
+                'Effective date: March 2025  •  Version 1.0',
                 style: AppTextStyles.labelSmall
                     .copyWith(color: Colors.white.withValues(alpha: 0.7)),
               ),
@@ -116,13 +116,15 @@ class PrivacyPolicyScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '10. Contact Us',
-            style: AppTextStyles.headlineSmall
-                .copyWith(color: colorScheme.onSurface, fontWeight: FontWeight.w600),
+            '10. Contact & Governing Law',
+            style: AppTextStyles.headlineSmall.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 10),
           Text(
-            'If you have questions or concerns about this Privacy Policy, please reach out:',
+            'These Terms are governed by applicable law. For any questions regarding these Terms, please contact us:',
             style: AppTextStyles.bodyMedium.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.8),
               height: 1.6,
@@ -131,7 +133,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Email link
-          _LinkTile(
+          _ContactLinkTile(
             icon: Icons.email_outlined,
             label: _contactEmail,
             onTap: () => _launchEmail(context),
@@ -139,7 +141,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           const SizedBox(height: 8),
 
           // Website link
-          _LinkTile(
+          _ContactLinkTile(
             icon: Icons.language_rounded,
             label: _websiteUrl,
             onTap: () => _launchWebsite(context),
@@ -147,7 +149,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
           const SizedBox(height: 12),
           Text(
-            'We aim to respond to all inquiries within 7 business days.',
+            'We aim to respond to all legal inquiries within 14 business days.',
             style: AppTextStyles.bodySmall.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.5),
               fontStyle: FontStyle.italic,
@@ -158,18 +160,18 @@ class PrivacyPolicyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTermsLink(
+  Widget _buildPrivacyLink(
       BuildContext context, bool isDark, ColorScheme colorScheme) {
     return InkWell(
-      onTap: () => context.push(AppRoutes.terms),
+      onTap: () => context.push(AppRoutes.privacyPolicy),
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.06),
+          color: const Color(0xFF16A34A).withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.25),
+            color: const Color(0xFF16A34A).withValues(alpha: 0.25),
           ),
         ),
         child: Row(
@@ -178,11 +180,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.12),
+                color: const Color(0xFF16A34A).withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.gavel_rounded,
-                  color: AppColors.primary, size: 20),
+              child: const Icon(Icons.shield_outlined,
+                  color: Color(0xFF16A34A), size: 20),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -190,14 +192,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Terms & Conditions',
+                    'Privacy Policy',
                     style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.primary,
+                      color: const Color(0xFF16A34A),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
-                    'Read our full terms of service',
+                    'Read our full privacy policy',
                     style: AppTextStyles.bodySmall.copyWith(
                       color: colorScheme.onSurface.withValues(alpha: 0.55),
                     ),
@@ -206,7 +208,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ),
             ),
             const Icon(Icons.arrow_forward_ios_rounded,
-                size: 14, color: AppColors.primary),
+                size: 14, color: Color(0xFF16A34A)),
           ],
         ),
       ),
@@ -217,7 +219,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
     final uri = Uri(
       scheme: 'mailto',
       path: _contactEmail,
-      query: 'subject=SpendWise Privacy Policy Inquiry',
+      query: 'subject=SpendWise Terms & Conditions Inquiry',
     );
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
@@ -247,90 +249,89 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   static const List<Map<String, String>> _sections = [
     {
-      'title': '1. Information We Collect',
+      'title': '1. Acceptance of Terms',
       'body':
-          'SpendWise does not collect any personal information from you. The app operates entirely offline. All expense data, categories, and settings you enter are stored locally on your device using a local database (Hive) and are never transmitted to any server.\n\n'
-          'We do not collect:\n'
-          '• Names, email addresses, or contact information\n'
-          '• Financial account numbers or banking data\n'
-          '• Location data\n'
-          '• Device identifiers or analytics data\n'
-          '• Any usage statistics or behavioral data',
+          'By downloading, installing, or using SpendWise ("the App"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, please do not use the App.\n\n'
+          'We reserve the right to update these Terms at any time. Continued use of the App after changes constitutes acceptance of the updated Terms.',
     },
     {
-      'title': '2. How Your Data Is Used',
+      'title': '2. License to Use',
       'body':
-          'All data you enter into SpendWise is used solely to provide the app\'s core functionality:\n\n'
-          '• Displaying your expense history and summaries\n'
-          '• Generating charts and reports\n'
-          '• Storing your preferences (theme, currency, language)\n'
-          '• Scheduling local notifications (reminders) on your device\n\n'
-          'This data never leaves your device. We have no access to it.',
+          'SpendWise grants you a limited, non-exclusive, non-transferable, revocable license to install and use the App on your personal mobile device solely for your own personal, non-commercial purposes.\n\n'
+          'You may not:\n'
+          '• Copy, modify, or distribute the App or its content\n'
+          '• Reverse-engineer or attempt to extract source code\n'
+          '• Use the App for any commercial purpose\n'
+          '• Transfer your license to any other person\n'
+          '• Remove any proprietary notices or labels on the App',
     },
     {
-      'title': '3. Data Storage & Security',
+      'title': '3. Your Responsibilities',
       'body':
-          'Your data is stored locally on your device using Hive, a lightweight and secure NoSQL database. The data is stored in your app\'s private storage area, which is protected by your device\'s built-in security mechanisms.\n\n'
-          '• Data is stored in the app\'s sandboxed storage\n'
-          '• Only SpendWise can access this data\n'
-          '• Data is included in your device\'s backup if you have backups enabled\n'
-          '• Uninstalling the app permanently deletes all your data',
+          'You are responsible for:\n\n'
+          '• Maintaining the security of your device\n'
+          '• All data you enter into the App\n'
+          '• Backing up your data (the App stores data locally; we cannot recover lost data)\n'
+          '• Ensuring you have the necessary permissions to use the App in your jurisdiction\n\n'
+          'You agree not to use the App for any unlawful purpose or in any way that could damage, disable, or impair the App.',
     },
     {
-      'title': '4. Third-Party Services',
+      'title': '4. Intellectual Property',
       'body':
-          'SpendWise does not integrate with any third-party analytics, advertising, or tracking services. The app does not contain:\n\n'
-          '• Advertising SDKs\n'
-          '• Analytics platforms (e.g. Firebase Analytics, Mixpanel)\n'
-          '• Crash reporting services that transmit data externally\n'
-          '• Social media integrations\n\n'
-          'The only network activity the app may perform is downloading fonts from Google Fonts on first launch if the Poppins font is not cached. No personal data is sent in this request.',
+          'The App and its original content, features, and functionality are owned by SpendWise and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.\n\n'
+          'The SpendWise name, logo, and all related names, logos, product and service names, designs, and slogans are trademarks of SpendWise. You must not use such marks without our prior written permission.',
     },
     {
-      'title': '5. Notifications',
+      'title': '5. Data and Privacy',
       'body':
-          'If you enable daily reminders, SpendWise uses your device\'s local notification system. These notifications are:\n\n'
-          '• Generated entirely on your device\n'
-          '• Not sent through any external server\n'
-          '• Controlled entirely by you in the Settings screen\n'
-          '• Revokable at any time via app settings or device notification settings',
+          'SpendWise stores all your expense data locally on your device. We do not collect, transmit, or store any of your personal or financial data on our servers.\n\n'
+          'You retain full ownership of all data you enter into the App. By using the App, you acknowledge that you have read and understood our Privacy Policy, which is incorporated into these Terms by reference.',
     },
     {
-      'title': '6. Data Export',
+      'title': '6. Disclaimer of Warranties',
       'body':
-          'SpendWise allows you to export your expense data as a CSV file. When you use this feature:\n\n'
-          '• The CSV file is generated on your device\n'
-          '• You choose where to send or save it using your device\'s share sheet\n'
-          '• SpendWise has no visibility into where you send the exported file\n\n'
-          'Once exported, the data is subject to the privacy policy of the service you choose.',
+          'THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.\n\n'
+          'We do not warrant that:\n'
+          '• The App will be uninterrupted or error-free\n'
+          '• Defects will be corrected\n'
+          '• The App is free of viruses or other harmful components\n'
+          '• The results of using the App will meet your requirements\n\n'
+          'The App is intended for personal expense tracking only and should not be used as a substitute for professional financial advice.',
     },
     {
-      'title': '7. Children\'s Privacy',
+      'title': '7. Limitation of Liability',
       'body':
-          'SpendWise is not directed at children under 13 years of age. Since we collect no information at all, the app is safe for use by people of all ages.',
+          'TO THE MAXIMUM EXTENT PERMITTED BY LAW, SPENDWISE SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO:\n\n'
+          '• Loss of data\n'
+          '• Loss of profits\n'
+          '• Loss of goodwill\n'
+          '• Service interruption\n'
+          '• Computer damage or system failure\n\n'
+          'Our total liability to you for any claim arising from these Terms or your use of the App shall not exceed the amount you paid for the App (if any).',
     },
     {
-      'title': '8. Changes to This Policy',
+      'title': '8. Third-Party Services',
       'body':
-          'We may update this Privacy Policy from time to time. If we make material changes, we will update the "Last updated" date at the top of this policy and release a new version of the app.\n\n'
-          'Since SpendWise is fully offline and collects no data, any changes to this policy are unlikely to affect how your data is handled.',
+          'The App does not integrate with any third-party services that process your personal data. The App may use Google Fonts for typography, which may involve a network request on first launch. This request contains no personal data.\n\n'
+          'Any links or references to third-party websites or services are provided for convenience only. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.',
     },
     {
-      'title': '9. Your Rights',
+      'title': '9. Termination',
       'body':
-          'Since all your data is stored locally on your device, you have complete control:\n\n'
-          '• Access: Open the app to view all your data\n'
-          '• Correction: Edit any expense or category directly in the app\n'
-          '• Deletion: Delete individual items, or uninstall the app to delete everything\n'
-          '• Portability: Export your data to CSV from the Settings screen\n\n'
-          'No request to us is necessary — you are the sole owner and controller of your data.',
+          'These Terms are effective until terminated by either you or SpendWise.\n\n'
+          'Your rights under these Terms will terminate automatically if you fail to comply with any of its provisions. Upon termination, you must destroy all copies of the App and all of its component parts.\n\n'
+          'We reserve the right to discontinue the App or any of its features at any time without notice. You may terminate these Terms at any time by deleting the App from your device.',
     },
   ];
 }
 
-// ─── Shared link tile widget ────────────────────────────────────────────────
-class _LinkTile extends StatelessWidget {
-  const _LinkTile({required this.icon, required this.label, required this.onTap});
+// ─── Contact link tile ────────────────────────────────────────────────────────
+class _ContactLinkTile extends StatelessWidget {
+  const _ContactLinkTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String label;
@@ -357,7 +358,8 @@ class _LinkTile extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(Icons.open_in_new_rounded, size: 14, color: AppColors.primary),
+            const Icon(Icons.open_in_new_rounded,
+                size: 14, color: AppColors.primary),
           ],
         ),
       ),
@@ -365,9 +367,9 @@ class _LinkTile extends StatelessWidget {
   }
 }
 
-// ─── Section card ─────────────────────────────────────────────────────────
-class _PolicySection extends StatelessWidget {
-  const _PolicySection({
+// ─── Section card ─────────────────────────────────────────────────────────────
+class _TermsSection extends StatelessWidget {
+  const _TermsSection({
     required this.title,
     required this.body,
     required this.isDark,

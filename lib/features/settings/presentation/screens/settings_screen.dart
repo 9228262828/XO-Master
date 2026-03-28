@@ -86,6 +86,8 @@ class _SettingsContent extends StatelessWidget {
                   ),
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   _PrivacyPolicyTile(),
+                  const Divider(height: 1, indent: 16, endIndent: 16),
+                  _TermsTile(),
                 ],
               ),
               const SizedBox(height: 32),
@@ -564,6 +566,28 @@ class _PrivacyPolicyTile extends StatelessWidget {
       subtitle: const Text('Your data stays on device'),
       trailing: const Icon(Icons.chevron_right_rounded, size: 20),
       onTap: () => context.push(AppRoutes.privacyPolicy),
+    );
+  }
+}
+
+class _TermsTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: AppColors.primary.withAlpha(25),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Icon(Icons.gavel_rounded,
+            size: 20, color: AppColors.primary),
+      ),
+      title: const Text('Terms & Conditions'),
+      subtitle: const Text('License and usage terms'),
+      trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+      onTap: () => context.push(AppRoutes.terms),
     );
   }
 }
