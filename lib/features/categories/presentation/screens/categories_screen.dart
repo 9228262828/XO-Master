@@ -5,6 +5,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_indicator.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../services/di.dart';
 import '../../domain/entities/category.dart';
 import '../cubit/category_cubit.dart';
@@ -27,9 +28,10 @@ class _CategoriesContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: Text(l.categories),
         actions: [
           IconButton(
             icon: const Icon(Icons.add_rounded),
@@ -38,6 +40,8 @@ class _CategoriesContent extends StatelessWidget {
         ],
       ),
       body: BlocConsumer<CategoryCubit, CategoryState>(
+        listenWhen: (prev, curr) =>
+            curr is CategoryOperationSuccess || curr is CategoryError,
         listener: (context, state) {
           if (state is CategoryOperationSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -55,6 +59,10 @@ class _CategoriesContent extends StatelessWidget {
             );
           }
         },
+        buildWhen: (prev, curr) =>
+            curr is CategoryLoading ||
+            curr is CategoryLoaded ||
+            curr is CategoryError,
         builder: (context, state) {
           if (state is CategoryLoading) return const FullScreenLoader();
           if (state is CategoryError) {
@@ -67,9 +75,9 @@ class _CategoriesContent extends StatelessWidget {
             if (state.categories.isEmpty) {
               return EmptyState(
                 icon: Icons.grid_view_rounded,
-                title: 'No categories',
-                subtitle: 'Add a category to get started',
-                actionLabel: 'Add Category',
+                title: l.noCategories,
+                subtitle: AppLocalizations.of(context)!.addCategory,
+                actionLabel: AppLocalizations.of(context)!.addCategory,
                 onAction: () => _showAddCategorySheet(context),
               );
             }
@@ -109,7 +117,7 @@ class _CategoriesContent extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: category.color.withOpacity(0.15),
+                color: category.color.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(category.icon, color: category.color, size: 22),
@@ -125,14 +133,14 @@ class _CategoriesContent extends StatelessWidget {
                 ? Text(
                     'Default',
                     style: AppTextStyles.labelSmall.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.4),
+                      color: colorScheme.onSurface.withValues(alpha: 0.4),
                     ),
                   )
                 : null,
             trailing: PopupMenuButton<String>(
               icon: Icon(
                 Icons.more_vert_rounded,
-                color: colorScheme.onSurface.withOpacity(0.4),
+                color: colorScheme.onSurface.withValues(alpha: 0.4),
               ),
               onSelected: (value) async {
                 if (value == 'edit') {
@@ -269,21 +277,23 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: colorScheme.onSurface.withOpacity(0.2),
+              color: colorScheme.onSurface.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            isEditing ? 'Edit Category' : 'Add Category',
+            isEditing
+                ? AppLocalizations.of(context)!.edit
+                : AppLocalizations.of(context)!.addCategory,
             style: AppTextStyles.headlineSmall.copyWith(color: colorScheme.onSurface),
           ),
           const SizedBox(height: 24),
           TextField(
             controller: _nameController,
-            decoration: const InputDecoration(
-              labelText: 'Category Name',
-              prefixIcon: Icon(Icons.label_outline_rounded, size: 20),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.categoryName,
+              prefixIcon: const Icon(Icons.label_outline_rounded, size: 20),
             ),
           ),
           const SizedBox(height: 20),
@@ -292,7 +302,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
             child: Text(
               'Color',
               style: AppTextStyles.labelLarge.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -320,7 +330,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
                         width: 3,
                       ),
                       boxShadow: isSelected
-                          ? [BoxShadow(color: color.withOpacity(0.5), blurRadius: 8)]
+                          ? [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 8)]
                           : null,
                     ),
                     child: isSelected
@@ -337,7 +347,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
             child: Text(
               'Icon',
               style: AppTextStyles.labelLarge.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -361,7 +371,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
                     duration: const Duration(milliseconds: 200),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? _selectedColor.withOpacity(0.15)
+                          ? _selectedColor.withValues(alpha: 0.15)
                           : isDark
                               ? AppColors.darkSurfaceVariant
                               : AppColors.lightSurfaceVariant,
@@ -373,7 +383,7 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
                     ),
                     child: Icon(
                       icon,
-                      color: isSelected ? _selectedColor : colorScheme.onSurface.withOpacity(0.5),
+                      color: isSelected ? _selectedColor : colorScheme.onSurface.withValues(alpha: 0.5),
                       size: 22,
                     ),
                   ),
@@ -395,7 +405,9 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
                         color: Colors.white,
                       ),
                     )
-                  : Text(isEditing ? 'Update' : 'Add Category'),
+                  : Text(isEditing
+                      ? AppLocalizations.of(context)!.save
+                      : AppLocalizations.of(context)!.addCategory),
             ),
           ),
         ],

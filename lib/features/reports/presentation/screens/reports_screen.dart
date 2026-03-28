@@ -4,6 +4,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/error_view.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/loading_indicator.dart';
 import '../../../../core/widgets/section_header.dart';
 import '../../../../services/di.dart';
@@ -34,7 +35,7 @@ class _ReportsContent extends StatelessWidget {
     final currencyCode = SettingsService.instance.currencyCode;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Reports')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.reports)),
       body: BlocBuilder<ReportCubit, ReportState>(
         builder: (context, state) {
           if (state is ReportLoading) return const FullScreenLoader();
@@ -75,14 +76,16 @@ class _ReportsContent extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: _buildSummaryRow(state, currencyCode, isDark, colorScheme),
+            child: _buildSummaryRow(context, state, currencyCode, isDark, colorScheme),
           ),
         ),
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
             child: SectionHeader(
-              title: state.period == ReportPeriod.weekly ? 'Daily Spending' : '6-Month Trend',
+              title: state.period == ReportPeriod.weekly
+                  ? AppLocalizations.of(context)!.weekly
+                  : AppLocalizations.of(context)!.trend,
             ),
           ),
         ),
@@ -95,7 +98,7 @@ class _ReportsContent extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-            child: const SectionHeader(title: 'By Category'),
+            child: SectionHeader(title: AppLocalizations.of(context)!.byCategory),
           ),
         ),
         SliverToBoxAdapter(
@@ -138,16 +141,18 @@ class _ReportsContent extends StatelessWidget {
   }
 
   Widget _buildSummaryRow(
+    BuildContext context,
     ReportLoaded state,
     String currencyCode,
     bool isDark,
     ColorScheme colorScheme,
   ) {
+    final l = AppLocalizations.of(context)!;
     return Row(
       children: [
         Expanded(
           child: _StatCard(
-            label: 'Total',
+            label: l.totalExpenses,
             value: CurrencyFormatter.format(state.totalAmount, currencyCode),
             icon: Icons.account_balance_wallet_rounded,
             color: AppColors.primary,
@@ -157,7 +162,7 @@ class _ReportsContent extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _StatCard(
-            label: 'Transactions',
+            label: l.transactions,
             value: state.transactionCount.toString(),
             icon: Icons.receipt_long_rounded,
             color: AppColors.secondary,
@@ -167,7 +172,7 @@ class _ReportsContent extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _StatCard(
-            label: 'Average',
+            label: l.average,
             value: CurrencyFormatter.formatCompact(state.averageExpense, currencyCode),
             icon: Icons.trending_up_rounded,
             color: AppColors.success,
@@ -231,6 +236,7 @@ class _PeriodSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.lightSurfaceVariant,
@@ -239,12 +245,12 @@ class _PeriodSelector extends StatelessWidget {
       child: Row(
         children: [
           _PeriodTab(
-            label: 'Weekly',
+            label: l.weekly,
             isSelected: selected == ReportPeriod.weekly,
             onTap: () => onChanged(ReportPeriod.weekly),
           ),
           _PeriodTab(
-            label: 'Monthly',
+            label: l.monthly,
             isSelected: selected == ReportPeriod.monthly,
             onTap: () => onChanged(ReportPeriod.monthly),
           ),
@@ -277,7 +283,7 @@ class _PeriodTab extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: AppTextStyles.labelMedium.copyWith(
-              color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
             ),
           ),
@@ -333,7 +339,7 @@ class _StatCard extends StatelessWidget {
           Text(
             label,
             style: AppTextStyles.labelSmall.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.5),
+              color: colorScheme.onSurface.withValues(alpha: 0.5),
             ),
           ),
         ],
@@ -373,7 +379,7 @@ class _CategoryBreakdownTile extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: item.category.color.withOpacity(0.15),
+              color: item.category.color.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(item.category.icon, color: item.category.color, size: 20),
@@ -395,7 +401,7 @@ class _CategoryBreakdownTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
                     value: item.percentage / 100,
-                    backgroundColor: item.category.color.withOpacity(0.15),
+                    backgroundColor: item.category.color.withValues(alpha: 0.15),
                     color: item.category.color,
                     minHeight: 4,
                   ),
@@ -417,7 +423,7 @@ class _CategoryBreakdownTile extends StatelessWidget {
               Text(
                 '${item.percentage.toStringAsFixed(1)}%',
                 style: AppTextStyles.labelSmall.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.5),
+                  color: colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               ),
             ],

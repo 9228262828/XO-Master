@@ -91,7 +91,7 @@ class AppTheme {
         ),
         hintStyle: AppTextStyles.bodyMedium.copyWith(
           color: (isDark ? AppColors.darkOnSurfaceVariant : AppColors.lightOnSurfaceVariant)
-              .withOpacity(0.6),
+              .withValues(alpha: 0.6),
         ),
       ),
 
@@ -132,7 +132,7 @@ class AppTheme {
 
       chipTheme: ChipThemeData(
         backgroundColor: isDark ? AppColors.darkSurfaceVariant : AppColors.lightSurfaceVariant,
-        selectedColor: AppColors.primary.withOpacity(0.15),
+        selectedColor: AppColors.primary.withValues(alpha: 0.15),
         labelStyle: AppTextStyles.labelMedium,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         side: BorderSide.none,

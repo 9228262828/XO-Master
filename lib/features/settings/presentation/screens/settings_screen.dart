@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/constants/app_routes.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/currency_formatter.dart';
@@ -18,9 +21,10 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // SettingsCubit is provided at the root (main.dart). 
+    // Only provide the data-loading cubits needed for CSV export here.
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl<SettingsCubit>()),
         BlocProvider(create: (_) => sl<ExpenseCubit>()..loadExpenses()),
         BlocProvider(create: (_) => sl<CategoryCubit>()..loadCategories()),
       ],
@@ -35,21 +39,20 @@ class _SettingsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
       body: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
+          final l = AppLocalizations.of(context)!;
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
               _SettingsSection(
-                title: 'Appearance',
-                children: [
-                  _ThemeTile(settings: settings),
-                ],
+                title: l.appearance,
+                children: [_ThemeTile(settings: settings)],
               ),
               const SizedBox(height: 16),
               _SettingsSection(
-                title: 'General',
+                title: l.general,
                 children: [
                   _CurrencyTile(settings: settings),
                   const Divider(height: 1, indent: 16, endIndent: 16),
@@ -58,7 +61,7 @@ class _SettingsContent extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _SettingsSection(
-                title: 'Notifications',
+                title: l.notifications,
                 children: [
                   _NotificationTile(settings: settings),
                   if (settings.notificationsEnabled) ...[
@@ -69,26 +72,20 @@ class _SettingsContent extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _SettingsSection(
-                title: 'Data',
-                children: [
-                  _ExportTile(),
-                ],
+                title: l.exportData,
+                children: [_ExportTile()],
               ),
               const SizedBox(height: 16),
               _SettingsSection(
-                title: 'About',
+                title: l.about,
                 children: [
                   _InfoTile(
                     icon: Icons.info_outline_rounded,
-                    title: 'Version',
+                    title: l.version,
                     subtitle: '1.0.0',
                   ),
                   const Divider(height: 1, indent: 16, endIndent: 16),
-                  _InfoTile(
-                    icon: Icons.shield_outlined,
-                    title: 'Privacy Policy',
-                    subtitle: 'Your data stays on device',
-                  ),
+                  _PrivacyPolicyTile(),
                 ],
               ),
               const SizedBox(height: 32),
@@ -118,7 +115,7 @@ class _SettingsSection extends StatelessWidget {
           child: Text(
             title.toUpperCase(),
             style: AppTextStyles.labelSmall.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.5),
+              color: colorScheme.onSurface.withValues(alpha: 0.5),
               letterSpacing: 1,
             ),
           ),
@@ -146,36 +143,36 @@ class _ThemeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return ListTile(
       leading: Container(
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.primary.withOpacity(0.1),
+          color: AppColors.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.palette_rounded, color: AppColors.primary, size: 20),
       ),
-      title: const Text('Theme'),
-      subtitle: Text(_themeName(settings.themeMode)),
+      title: Text(AppLocalizations.of(context)!.darkMode),
+      subtitle: Text(_themeName(context, settings.themeMode)),
       trailing: const Icon(Icons.chevron_right_rounded, size: 20),
-      onTap: () => _showThemePicker(context, settings.themeMode),
+      onTap: () => _showThemePicker(context, settings.themeMode, AppLocalizations.of(context)!),
     );
   }
 
-  String _themeName(ThemeMode mode) {
+  String _themeName(BuildContext context, ThemeMode mode) {
+    final l = AppLocalizations.of(context)!;
     switch (mode) {
       case ThemeMode.light:
-        return 'Light';
+        return l.light;
       case ThemeMode.dark:
-        return 'Dark';
+        return l.dark;
       default:
-        return 'System Default';
+        return l.systemDefault;
     }
   }
 
-  void _showThemePicker(BuildContext context, ThemeMode current) {
+  void _showThemePicker(BuildContext context, ThemeMode current, AppLocalizations l) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -194,17 +191,17 @@ class _ThemeTile extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 20),
-              Text('Choose Theme', style: AppTextStyles.headlineSmall),
+              Text(l.darkMode, style: AppTextStyles.headlineSmall),
               const SizedBox(height: 16),
               for (final mode in ThemeMode.values)
                 ListTile(
                   leading: Icon(_themeIcon(mode)),
-                  title: Text(_themeName(mode)),
+                  title: Text(_themeName(ctx, mode)),
                   trailing: mode == current
                       ? const Icon(Icons.check_rounded, color: AppColors.primary)
                       : null,
@@ -244,12 +241,12 @@ class _CurrencyTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.success.withOpacity(0.1),
+          color: AppColors.success.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.attach_money_rounded, color: AppColors.success, size: 20),
       ),
-      title: const Text('Currency'),
+      title: Text(AppLocalizations.of(context)!.currency),
       subtitle: Text('${settings.currencyCode} (${CurrencyFormatter.symbol(settings.currencyCode)})'),
       trailing: const Icon(Icons.chevron_right_rounded, size: 20),
       onTap: () => _showCurrencyPicker(context),
@@ -280,12 +277,12 @@ class _CurrencyTile extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text('Select Currency', style: AppTextStyles.headlineSmall),
+                Text(AppLocalizations.of(context)!.currency, style: AppTextStyles.headlineSmall),
                 const SizedBox(height: 16),
                 Expanded(
                   child: ListView.builder(
@@ -334,13 +331,15 @@ class _LanguageTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.secondary.withOpacity(0.1),
+          color: AppColors.secondary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.language_rounded, color: AppColors.secondary, size: 20),
       ),
-      title: const Text('Language'),
-      subtitle: Text(settings.languageCode == 'ar' ? 'Arabic' : 'English'),
+      title: Text(AppLocalizations.of(context)!.language),
+      subtitle: Text(settings.languageCode == 'ar'
+          ? AppLocalizations.of(context)!.arabic
+          : AppLocalizations.of(context)!.english),
       trailing: const Icon(Icons.chevron_right_rounded, size: 20),
       onTap: () => _showLanguagePicker(context),
     );
@@ -365,12 +364,12 @@ class _LanguageTile extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 20),
-              Text('Select Language', style: AppTextStyles.headlineSmall),
+              Text(AppLocalizations.of(context)!.language, style: AppTextStyles.headlineSmall),
               const SizedBox(height: 16),
               for (final code in AppConstants.supportedLocales)
                 ListTile(
@@ -378,7 +377,9 @@ class _LanguageTile extends StatelessWidget {
                     code == 'ar' ? '🇸🇦' : '🇺🇸',
                     style: const TextStyle(fontSize: 24),
                   ),
-                  title: Text(code == 'ar' ? 'Arabic (العربية)' : 'English'),
+                  title: Text(code == 'ar'
+                      ? '${AppLocalizations.of(ctx)!.arabic} (العربية)'
+                      : AppLocalizations.of(ctx)!.english),
                   trailing: code == settings.languageCode
                       ? const Icon(Icons.check_rounded, color: AppColors.primary)
                       : null,
@@ -407,13 +408,13 @@ class _NotificationTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.warning.withOpacity(0.1),
+          color: AppColors.warning.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.notifications_outlined, color: AppColors.warning, size: 20),
       ),
-      title: const Text('Daily Reminders'),
-      subtitle: const Text('Get reminded to log expenses'),
+      title: Text(AppLocalizations.of(context)!.notifications),
+      subtitle: Text(AppLocalizations.of(context)!.notificationsDesc),
       trailing: Switch.adaptive(
         value: settings.notificationsEnabled,
         onChanged: (v) => context.read<SettingsCubit>().toggleNotifications(v),
@@ -437,12 +438,12 @@ class _ReminderTimeTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.warning.withOpacity(0.1),
+          color: AppColors.warning.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.access_time_rounded, color: AppColors.warning, size: 20),
       ),
-      title: const Text('Reminder Time'),
+      title: Text(AppLocalizations.of(context)!.reminderTime),
       subtitle: Text(time.format(context)),
       trailing: const Icon(Icons.chevron_right_rounded, size: 20),
       onTap: () async {
@@ -474,13 +475,13 @@ class _ExportTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.primary.withOpacity(0.1),
+          color: AppColors.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.download_rounded, color: AppColors.primary, size: 20),
       ),
-      title: const Text('Export Data'),
-      subtitle: const Text('Export expenses as CSV'),
+      title: Text(AppLocalizations.of(context)!.exportCSV),
+      subtitle: Text(AppLocalizations.of(context)!.exportDesc),
       trailing: const Icon(Icons.chevron_right_rounded, size: 20),
       onTap: () => _exportData(context),
     );
@@ -541,6 +542,28 @@ class _InfoTile extends StatelessWidget {
       ),
       title: Text(title),
       subtitle: Text(subtitle),
+    );
+  }
+}
+
+class _PrivacyPolicyTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: const Color(0xFF16A34A).withAlpha(25),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Icon(Icons.shield_outlined,
+            size: 20, color: Color(0xFF16A34A)),
+      ),
+      title: const Text('Privacy Policy'),
+      subtitle: const Text('Your data stays on device'),
+      trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+      onTap: () => context.push(AppRoutes.privacyPolicy),
     );
   }
 }

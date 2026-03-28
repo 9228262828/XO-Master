@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../models/category_model.dart';
 
@@ -14,9 +15,7 @@ class CategoryLocalDatasourceImpl implements CategoryLocalDatasource {
   Box<CategoryModel> get _box => Hive.box<CategoryModel>(AppConstants.hiveCategoriesBox);
 
   @override
-  Future<List<CategoryModel>> getAllCategories() async {
-    return _box.values.toList();
-  }
+  Future<List<CategoryModel>> getAllCategories() async => _box.values.toList();
 
   @override
   Future<CategoryModel?> getCategoryById(String id) async {
@@ -39,6 +38,10 @@ class CategoryLocalDatasourceImpl implements CategoryLocalDatasource {
 
   @override
   Stream<List<CategoryModel>> watchCategories() {
-    return _box.watch().map((_) => _box.values.toList());
+    // Emit current snapshot immediately, then re-emit on every box change.
+    return _box
+        .watch()
+        .map((_) => _box.values.toList())
+        .startWith(_box.values.toList());
   }
 }

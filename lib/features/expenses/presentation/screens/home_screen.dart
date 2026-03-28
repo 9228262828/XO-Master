@@ -9,6 +9,7 @@ import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_indicator.dart';
 import '../../../../core/widgets/section_header.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../services/di.dart';
 import '../../../../services/settings_service.dart';
 import '../../../categories/presentation/cubit/category_cubit.dart';
@@ -59,6 +60,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final currencyCode = SettingsService.instance.currencyCode;
+    // ignore unused — accessed in sub-builders via AppLocalizations.of(context)!
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -68,6 +70,11 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
             _buildHeader(context, isDark, colorScheme),
             Expanded(
               child: BlocBuilder<ExpenseCubit, ExpenseState>(
+                // Never re-render for transient operation states; keep last loaded UI.
+                buildWhen: (prev, curr) =>
+                    curr is ExpenseLoading ||
+                    curr is ExpenseLoaded ||
+                    curr is ExpenseError,
                 builder: (context, state) {
                   if (state is ExpenseLoading) {
                     return const FullScreenLoader();
@@ -81,7 +88,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                   if (state is ExpenseLoaded) {
                     return _buildContent(context, state, currencyCode, isDark, colorScheme);
                   }
-                  return const SizedBox();
+                  return const FullScreenLoader();
                 },
               ),
             ),
@@ -92,6 +99,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
   }
 
   Widget _buildHeader(BuildContext context, bool isDark, ColorScheme colorScheme) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
       color: isDark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -103,11 +111,11 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
               Text(
                 'Good ${_greeting()}!',
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.6),
+                  color: colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
               Text(
-                'SpendWise',
+                l.appName,
                 style: AppTextStyles.headlineLarge.copyWith(
                   color: colorScheme.onSurface,
                   fontWeight: FontWeight.w700,
@@ -158,7 +166,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                 autofocus: true,
                 onChanged: (q) => context.read<ExpenseCubit>().search(q),
                 decoration: InputDecoration(
-                  hintText: 'Search expenses...',
+                  hintText: AppLocalizations.of(context)!.search,
                   prefixIcon: const Icon(Icons.search_rounded, size: 20),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   border: OutlineInputBorder(
@@ -195,23 +203,26 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
             child: SectionHeader(
               title: _isSearching
                   ? 'Results (${state.filteredExpenses.length})'
-                  : 'Recent Transactions',
-              actionLabel: !_isSearching && state.allExpenses.isNotEmpty ? 'See All' : null,
+                  : AppLocalizations.of(context)!.recentTransactions,
+              actionLabel: !_isSearching && state.allExpenses.isNotEmpty
+                  ? AppLocalizations.of(context)!.seeAll
+                  : null,
               onAction: () => context.push(AppRoutes.allExpenses),
             ),
           ),
         ),
         if (state.filteredExpenses.isEmpty)
           SliverFillRemaining(
-            child: EmptyState(
-              icon: Icons.receipt_long_rounded,
-              title: _isSearching ? 'No results found' : 'No expenses yet',
-              subtitle: _isSearching
-                  ? 'Try a different search term'
-                  : 'Tap the + button to add your first expense',
-              actionLabel: !_isSearching ? 'Add Expense' : null,
-              onAction: !_isSearching ? () => context.push(AppRoutes.addExpense) : null,
-            ),
+            child: Builder(builder: (context) {
+              final l = AppLocalizations.of(context)!;
+              return EmptyState(
+                icon: Icons.receipt_long_rounded,
+                title: _isSearching ? 'Results (0)' : l.noExpenses,
+                subtitle: _isSearching ? null : l.noExpensesSubtitle,
+                actionLabel: !_isSearching ? l.addExpense : null,
+                onAction: !_isSearching ? () => context.push(AppRoutes.addExpense) : null,
+              );
+            }),
           )
         else
           SliverPadding(
@@ -245,7 +256,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                               child: Text(
                                 AppDateUtils.relativeDate(expense.date),
                                 style: AppTextStyles.labelMedium.copyWith(
-                                  color: colorScheme.onSurface.withOpacity(0.5),
+                                  color: colorScheme.onSurface.withValues(alpha: 0.5),
                                 ),
                               ),
                             ),
@@ -293,9 +304,9 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.08),
+        color: AppColors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withOpacity(0.15)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
@@ -303,7 +314,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.15),
+              color: AppColors.primary.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Icon(Icons.lightbulb_outline_rounded, color: AppColors.primary, size: 18),
@@ -321,7 +332,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                 Text(
                   'Daily avg: \$${dailyAvg.toStringAsFixed(2)} · Projected: \$${projectedMonthly.toStringAsFixed(0)}/mo',
                   style: AppTextStyles.bodySmall.copyWith(
-                    color: colorScheme.onSurface.withOpacity(0.7),
+                    color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
               ],

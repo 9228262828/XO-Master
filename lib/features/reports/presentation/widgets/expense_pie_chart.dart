@@ -30,7 +30,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         child: Text(
           'No data available',
           style: AppTextStyles.bodyMedium.copyWith(
-            color: colorScheme.onSurface.withOpacity(0.5),
+            color: colorScheme.onSurface.withValues(alpha: 0.5),
           ),
         ),
       );
@@ -123,7 +123,7 @@ class _Badge extends StatelessWidget {
         color: color,
         shape: BoxShape.circle,
         boxShadow: [
-          BoxShadow(color: color.withOpacity(0.5), blurRadius: 4, offset: const Offset(0, 2)),
+          BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 4, offset: const Offset(0, 2)),
         ],
       ),
       child: Icon(icon, color: Colors.white, size: 14),
@@ -156,7 +156,7 @@ class _LegendItem extends StatelessWidget {
         Text(
           '$label (${percentage.toStringAsFixed(0)}%)',
           style: AppTextStyles.labelSmall.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
           ),
         ),
       ],

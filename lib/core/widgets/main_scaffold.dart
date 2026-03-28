@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/expenses/presentation/screens/home_screen.dart';
+import '../../l10n/app_localizations.dart';
 import '../constants/app_routes.dart';
 import '../theme/app_colors.dart';
 
@@ -38,6 +39,7 @@ class MainScaffold extends StatelessWidget {
     final location = GoRouterState.of(context).matchedLocation;
     final currentIndex = _locationToIndex(location);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l = AppLocalizations.of(context)!;
 
     final body = location == AppRoutes.home ? const HomeScreen() : child;
 
@@ -68,25 +70,25 @@ class MainScaffold extends StatelessWidget {
               children: [
                 _NavItem(
                   icon: Icons.home_rounded,
-                  label: 'Home',
+                  label: l.home,
                   isSelected: currentIndex == 0,
                   onTap: () => _onTap(context, 0),
                 ),
                 _NavItem(
                   icon: Icons.bar_chart_rounded,
-                  label: 'Reports',
+                  label: l.reports,
                   isSelected: currentIndex == 1,
                   onTap: () => _onTap(context, 1),
                 ),
                 _NavItem(
                   icon: Icons.grid_view_rounded,
-                  label: 'Categories',
+                  label: l.categories,
                   isSelected: currentIndex == 2,
                   onTap: () => _onTap(context, 2),
                 ),
                 _NavItem(
                   icon: Icons.settings_rounded,
-                  label: 'Settings',
+                  label: l.settings,
                   isSelected: currentIndex == 3,
                   onTap: () => _onTap(context, 3),
                 ),
@@ -127,7 +129,7 @@ class _NavItem extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.1) : Colors.transparent,
+          color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
