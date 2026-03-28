@@ -4,248 +4,530 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SpendWise – Privacy Policy</title>
+  <meta name="description" content="Privacy Policy for SpendWise – Expense Tracker Android app.">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                   'Helvetica Neue', Arial, sans-serif;
       background: #f8fafc;
       color: #1e293b;
-      line-height: 1.7;
+      line-height: 1.75;
+      font-size: 16px;
     }
 
+    /* ── Hero ── */
     .hero {
-      background: linear-gradient(135deg, #4ade80, #16a34a);
-      color: white;
-      padding: 48px 24px 40px;
+      background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+      color: #fff;
+      padding: 52px 24px 44px;
       text-align: center;
     }
-    .hero-icon {
-      width: 64px; height: 64px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 18px;
-      display: inline-flex;
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.92;
+      max-width: 560px;
+      margin: 0 auto 20px;
+    }
+    .hero-meta {
+      font-size: 0.78rem;
+      opacity: 0.72;
+    }
+
+    /* ── Compliance banner ── */
+    .compliance-bar {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 24px;
+    }
+    .compliance-bar-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
-      margin-bottom: 16px;
     }
-    .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
-    .hero p  { font-size: 1rem; opacity: 0.9; max-width: 560px; margin: 0 auto 16px; }
-    .hero .meta { font-size: 0.8rem; opacity: 0.7; }
-
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 32px 20px 60px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #dcfce7;
+    .chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #f0fdf4;
       color: #15803d;
       border: 1px solid #bbf7d0;
       border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 28px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .chip.blue  { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+    .chip.amber { background:#fffbeb; color:#b45309; border-color:#fde68a; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
     }
 
-    .section {
-      background: white;
+    /* ── Summary cards ── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .summary-card {
+      background: #fff;
       border-radius: 16px;
       border: 1px solid #e2e8f0;
-      padding: 20px 22px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .summary-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .summary-card h3 { font-size: 0.9rem; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+    .summary-card p  { font-size: 0.82rem; color: #475569; line-height: 1.5; }
+
+    /* ── Sections ── */
+    .section {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      padding: 22px 24px;
       margin-bottom: 12px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .section-num {
+      width: 28px; height: 28px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #16a34a;
+      flex-shrink: 0;
     }
     .section h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 700;
       color: #0f172a;
-      margin-bottom: 10px;
     }
-    .section p, .section ul {
-      font-size: 0.95rem;
+    .section p {
+      font-size: 0.92rem;
       color: #475569;
+      margin-bottom: 8px;
     }
+    .section p:last-child { margin-bottom: 0; }
     .section ul {
-      padding-left: 20px;
-      margin-top: 6px;
+      padding-left: 0;
+      list-style: none;
+      margin: 8px 0;
     }
-    .section ul li { margin-bottom: 4px; }
+    .section ul li {
+      font-size: 0.92rem;
+      color: #475569;
+      padding: 4px 0 4px 22px;
+      position: relative;
+    }
+    .section ul li::before {
+      content: "✓";
+      position: absolute; left: 0;
+      color: #16a34a;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .section ul.cross li::before { content: "✕"; color: #ef4444; }
+    .section ul.bullet li::before { content: "•"; color: #94a3b8; font-size: 1.1rem; top: 2px; }
 
+    /* ── Permissions table ── */
+    .perm-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.88rem; }
+    .perm-table th {
+      text-align: left; padding: 8px 10px;
+      background: #f8fafc; border-bottom: 2px solid #e2e8f0;
+      color: #0f172a; font-weight: 700;
+    }
+    .perm-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #475569; vertical-align: top;
+    }
+    .perm-table tr:last-child td { border-bottom: none; }
+    .perm-name { font-family: 'Courier New', monospace; font-size: 0.8rem;
+                 background: #f8fafc; border: 1px solid #e2e8f0;
+                 border-radius: 6px; padding: 2px 6px; color: #0f172a; white-space: nowrap; }
+
+    /* ── Contact card ── */
     .contact-card {
-      background: white;
+      background: #fff;
       border-radius: 16px;
       border: 1px solid #e2e8f0;
-      padding: 20px 22px;
+      padding: 22px 24px;
       margin-bottom: 12px;
     }
-    .contact-card h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 10px;
-    }
-    .link-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 4px;
+    .contact-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 8px;
+      border-radius: 10px;
       text-decoration: none;
       color: #16a34a;
-      font-size: 0.95rem;
-      border-radius: 8px;
       transition: background 0.15s;
+      margin-top: 4px;
     }
-    .link-row:hover { background: #f0fdf4; }
-    .link-row span { flex: 1; text-decoration: underline; }
-    .link-icon { font-size: 18px; flex-shrink: 0; }
+    .contact-link:hover { background: #f0fdf4; }
+    .contact-link span { font-size: 0.92rem; text-decoration: underline; flex: 1; }
 
+    /* ── Terms banner ── */
     .terms-banner {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      display: flex; align-items: center; gap: 14px;
       background: #eef2ff;
       border: 1px solid #c7d2fe;
       border-radius: 16px;
-      padding: 16px;
+      padding: 16px 20px;
       text-decoration: none;
       color: inherit;
-      margin-top: 8px;
+      margin-bottom: 12px;
       transition: background 0.15s;
     }
     .terms-banner:hover { background: #e0e7ff; }
     .terms-banner-icon {
-      width: 44px; height: 44px;
+      width: 44px; height: 44px; border-radius: 12px;
       background: rgba(99,102,241,0.12);
-      border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-      flex-shrink: 0;
+      font-size: 22px; flex-shrink: 0;
     }
-    .terms-banner strong { display: block; color: #4f46e5; font-weight: 600; }
-    .terms-banner small { color: #64748b; font-size: 0.82rem; }
-    .terms-banner-arrow { margin-left: auto; color: #6366f1; font-size: 14px; }
+    .terms-banner strong { display: block; color: #4f46e5; font-weight: 700; font-size: 0.95rem; }
+    .terms-banner small  { color: #64748b; font-size: 0.82rem; }
 
+    /* ── Footer ── */
     footer {
       text-align: center;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: #94a3b8;
-      padding: 24px;
+      padding: 28px 20px;
       border-top: 1px solid #e2e8f0;
-      margin-top: 20px;
+    }
+    footer a { color: #16a34a; text-decoration: none; }
+
+    @media (max-width: 520px) {
+      .hero { padding: 40px 16px 32px; }
+      .section, .contact-card { padding: 18px 16px; }
+      .perm-table { font-size: 0.8rem; }
+      .perm-name  { white-space: normal; }
     }
   </style>
 </head>
 <body>
 
+<!-- ═══════════════════  HERO  ═══════════════════ -->
 <div class="hero">
-  <div class="hero-icon">🛡️</div>
-  <h1>Privacy Policy</h1>
-  <p>SpendWise is built with a privacy-first approach. All your data stays on your device — we never collect, sell, or share your personal information.</p>
-  <div class="meta">Last updated: March 2025 &nbsp;•&nbsp; Version 1.0</div>
+  <div class="hero-badge">🛡️ &nbsp; Privacy Policy</div>
+  <h1>SpendWise Privacy Policy</h1>
+  <p>We built SpendWise with one promise: your financial data belongs to you — and only you. We never collect, upload, or share your personal information.</p>
+  <div class="hero-meta">
+    Effective date: March&nbsp;28,&nbsp;2025 &nbsp;·&nbsp; Version&nbsp;1.0 &nbsp;·&nbsp; Applies to Android
+  </div>
 </div>
 
+<!-- ═══════════════════  COMPLIANCE CHIPS  ═══════════════════ -->
+<div class="compliance-bar">
+  <div class="compliance-bar-inner">
+    <span class="chip">✅ Google Play Compliant</span>
+    <span class="chip">✅ 100% Offline</span>
+    <span class="chip">✅ No Data Collection</span>
+    <span class="chip blue">📱 Android</span>
+    <span class="chip amber">⚖️ GDPR-Friendly</span>
+  </div>
+</div>
+
+<!-- ═══════════════════  MAIN CONTENT  ═══════════════════ -->
 <div class="container">
 
-  <div class="badge">✅ 100% Offline &nbsp;•&nbsp; No data collection</div>
+  <!-- Summary cards -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-icon">🚫</div>
+      <div>
+        <h3>No Data Collection</h3>
+        <p>We do not collect, store, or transmit any personal information.</p>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-icon">📲</div>
+      <div>
+        <h3>Stored On-Device Only</h3>
+        <p>All expense data lives in your phone's local storage — nowhere else.</p>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-icon">🔕</div>
+      <div>
+        <h3>No Third-Party Trackers</h3>
+        <p>No analytics, no ads, no social SDKs. Zero third-party data sharing.</p>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-icon">🔔</div>
+      <div>
+        <h3>Optional Notifications</h3>
+        <p>Reminders are scheduled locally. Nothing is sent to external servers.</p>
+      </div>
+    </div>
+  </div>
 
+  <!-- Section 1 -->
   <div class="section">
-    <h2>1. Information We Collect</h2>
-    <p>SpendWise does not collect any personal information. The app operates entirely offline. All data is stored locally on your device and never transmitted to any server.</p>
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2>Introduction</h2>
+    </div>
+    <p>SpendWise ("the App", "we", "us", or "our") is a personal expense-tracking application developed for Android. This Privacy Policy explains how the App handles information when you use it.</p>
+    <p>By installing or using SpendWise, you acknowledge that you have read and understood this Privacy Policy. If you do not agree with any part of this policy, please do not use the App.</p>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2>Information We Do NOT Collect</h2>
+    </div>
+    <p>SpendWise is a fully offline application. We do <strong>not</strong> collect, transmit, store on servers, or share any of the following:</p>
+    <ul class="cross">
+      <li>Personal identifiers (name, email address, phone number)</li>
+      <li>Financial account numbers, bank details, or card information</li>
+      <li>Device identifiers (IMEI, Android ID, advertising ID)</li>
+      <li>Location data (GPS or approximate location)</li>
+      <li>Usage statistics, analytics, or behavioural data</li>
+      <li>Crash reports or diagnostic data sent to external servers</li>
+      <li>Any data that identifies you personally</li>
+    </ul>
+    <p style="margin-top:10px; padding:10px 14px; background:#f0fdf4; border-left:3px solid #16a34a; border-radius:0 8px 8px 0; font-size:0.88rem; color:#15803d; font-weight:500;">
+      ✅ We do not collect, store, or share any personal information through SpendWise.
+    </p>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2>Data You Enter into the App</h2>
+    </div>
+    <p>All data you enter — expense amounts, categories, dates, notes, and settings — is stored <strong>exclusively on your device</strong> using a local database (Hive). This data:</p>
     <ul>
-      <li>No names, emails, or contact information</li>
-      <li>No financial account numbers or banking data</li>
-      <li>No location data</li>
-      <li>No device identifiers or analytics data</li>
-      <li>No usage statistics or behavioral data</li>
+      <li>Is never uploaded to any server or cloud service</li>
+      <li>Is never shared with us or any third party</li>
+      <li>Remains entirely under your control at all times</li>
+      <li>Is permanently deleted when you uninstall the App</li>
+      <li>May be included in your device's system backup (if enabled by you)</li>
+    </ul>
+    <p style="margin-top:10px">You own your data. We have no access to it whatsoever.</p>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2>App Permissions</h2>
+    </div>
+    <p>SpendWise requests only the permissions necessary to deliver its features. Below is a complete list of every permission the App uses and why:</p>
+
+    <table class="perm-table">
+      <thead>
+        <tr>
+          <th>Permission</th>
+          <th>Purpose</th>
+          <th>Required?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="perm-name">POST_NOTIFICATIONS</span></td>
+          <td>Display daily expense reminder notifications</td>
+          <td>Optional — only requested if you enable reminders in Settings</td>
+        </tr>
+        <tr>
+          <td><span class="perm-name">RECEIVE_BOOT_COMPLETED</span></td>
+          <td>Reschedule your reminder notification after the device restarts so you don't miss it</td>
+          <td>Only active if reminders are enabled</td>
+        </tr>
+        <tr>
+          <td><span class="perm-name">SCHEDULE_EXACT_ALARM</span><br><span class="perm-name">USE_EXACT_ALARM</span></td>
+          <td>Deliver reminder notifications at the exact time you choose</td>
+          <td>Only active if reminders are enabled</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:12px">The App does <strong>not</strong> request camera, microphone, contacts, location, storage read/write, or any other sensitive permission.</p>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2>Third-Party Services</h2>
+    </div>
+    <p>SpendWise does <strong>not</strong> use any third-party analytics, advertising, or tracking services. Specifically, the App does not include:</p>
+    <ul class="cross">
+      <li>Google Analytics or Firebase Analytics</li>
+      <li>Facebook SDK or any social media SDK</li>
+      <li>Advertising networks (AdMob, Meta Ads, etc.)</li>
+      <li>Crash reporting services (Crashlytics, Sentry, etc.)</li>
+      <li>Any service that transmits your data to an external party</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Google Fonts (Typography only):</strong> On the very first launch, the App may make a network request to download the Poppins font from Google's servers. This request contains no personal data — it is a standard HTTP request for a font file. After the first download, the font is cached locally and no further requests are made. This request is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:#16a34a">Google's Privacy Policy</a>.</p>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2>Local Notifications</h2>
+    </div>
+    <p>If you choose to enable daily expense reminders in Settings, the App uses your device's local notification system (<code style="font-size:0.85rem; background:#f8fafc; padding:1px 6px; border-radius:4px; border:1px solid #e2e8f0">flutter_local_notifications</code>) to schedule reminders. All of the following is true:</p>
+    <ul>
+      <li>Notifications are generated and delivered entirely on your device</li>
+      <li>No notification content is sent to any external server</li>
+      <li>You can disable reminders at any time in Settings</li>
+      <li>You can revoke notification permission via your device's system settings</li>
     </ul>
   </div>
 
+  <!-- Section 7 -->
   <div class="section">
-    <h2>2. How Your Data Is Used</h2>
-    <p>All data you enter into SpendWise is used solely to provide the app's core functionality:</p>
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2>Data Export (CSV)</h2>
+    </div>
+    <p>SpendWise includes a feature to export your expense data as a CSV file. When you use this feature:</p>
     <ul>
-      <li>Displaying your expense history and summaries</li>
-      <li>Generating charts and reports</li>
-      <li>Storing your preferences (theme, currency, language)</li>
-      <li>Scheduling local notifications (reminders) on your device</li>
+      <li>The CSV file is generated locally on your device</li>
+      <li>You choose where to share or save the file using your device's share sheet</li>
+      <li>SpendWise has no access to or visibility into where you send the file</li>
     </ul>
-    <p style="margin-top:8px">This data never leaves your device. We have no access to it.</p>
+    <p style="margin-top:8px">Once exported, the file is under your sole control. If you share it with a third-party service, that service's own privacy policy will apply.</p>
   </div>
 
+  <!-- Section 8 -->
   <div class="section">
-    <h2>3. Data Storage &amp; Security</h2>
-    <p>Your data is stored locally using Hive, a lightweight and secure NoSQL database, in your app's private sandboxed storage. Only SpendWise can access this data. Uninstalling the app permanently deletes all your data.</p>
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <h2>Data Security</h2>
+    </div>
+    <p>Your data is protected by your device's built-in security (screen lock, encryption). Because SpendWise stores all data locally and transmits none of it, the risk of a data breach from our side is zero — we simply have no access to your data.</p>
+    <p style="margin-top:8px">We recommend using a screen lock and keeping your device's operating system up to date to protect all apps on your device, including SpendWise.</p>
   </div>
 
+  <!-- Section 9 -->
   <div class="section">
-    <h2>4. Third-Party Services</h2>
-    <p>SpendWise does not integrate with any third-party analytics, advertising, or tracking services. No advertising SDKs, no analytics platforms, no social media integrations. The only network activity may be loading the Poppins font from Google Fonts on first launch — no personal data is sent.</p>
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <h2>Children's Privacy</h2>
+    </div>
+    <p>SpendWise is not directed at children under the age of 13. The App does not knowingly collect any information from children under 13. Since the App collects no personal information from anyone, it is safe for use by people of all ages. If you believe a child has somehow provided personal information through the App, please contact us at the address below and we will take appropriate action.</p>
   </div>
 
+  <!-- Section 10 -->
   <div class="section">
-    <h2>5. Notifications</h2>
-    <p>Daily reminders are generated entirely on your device using the local notification system. No external server is involved. You can disable reminders at any time in Settings.</p>
-  </div>
-
-  <div class="section">
-    <h2>6. Data Export</h2>
-    <p>The CSV export feature generates a file on your device. You control where it goes via your device's share sheet. SpendWise has no visibility into where you send the exported file.</p>
-  </div>
-
-  <div class="section">
-    <h2>7. Children's Privacy</h2>
-    <p>SpendWise is not directed at children under 13. Since we collect no information at all, the app is safe for use by people of all ages.</p>
-  </div>
-
-  <div class="section">
-    <h2>8. Changes to This Policy</h2>
-    <p>We may update this policy from time to time. We will update the "Last updated" date above and release a new app version for material changes.</p>
-  </div>
-
-  <div class="section">
-    <h2>9. Your Rights</h2>
-    <p>You have complete control over your data:</p>
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <h2>Your Rights and Control</h2>
+    </div>
+    <p>Because all data is stored locally on your device, you have full control at all times:</p>
     <ul>
-      <li><strong>Access:</strong> Open the app to view all your data</li>
-      <li><strong>Correction:</strong> Edit any expense or category directly in the app</li>
-      <li><strong>Deletion:</strong> Delete items individually or uninstall the app</li>
-      <li><strong>Portability:</strong> Export your data to CSV from Settings</li>
+      <li><strong>Access:</strong> Open the App to view all your data</li>
+      <li><strong>Correction:</strong> Edit any expense or category directly in the App</li>
+      <li><strong>Deletion:</strong> Delete individual items inside the App, or uninstall to delete everything</li>
+      <li><strong>Portability:</strong> Export all your data to a CSV file from Settings → Export Data</li>
+      <li><strong>Restrict processing:</strong> Disable notifications at any time from Settings</li>
     </ul>
+    <p style="margin-top:8px">No request to us is needed — you are the sole owner and controller of your data.</p>
   </div>
 
+  <!-- Section 11 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <h2>Changes to This Privacy Policy</h2>
+    </div>
+    <p>We may update this Privacy Policy from time to time to reflect changes in the App or applicable laws. When we make changes, we will:</p>
+    <ul>
+      <li>Update the "Effective date" at the top of this page</li>
+      <li>Release a new version of the App on Google Play</li>
+      <li>Note the change in the App's release notes (changelog)</li>
+    </ul>
+    <p style="margin-top:8px">We encourage you to review this page periodically. Continued use of the App after any changes constitutes your acceptance of the updated policy. Because we do not collect your contact information, we cannot notify you directly of changes.</p>
+  </div>
+
+  <!-- Contact -->
   <div class="contact-card">
-    <h2>10. Contact Us</h2>
-    <p style="margin-bottom:12px">For questions or concerns about this Privacy Policy:</p>
+    <div class="section-header">
+      <div class="section-num" style="background:#f0fdf4; color:#16a34a">✉</div>
+      <h2>Contact Us</h2>
+    </div>
+    <p style="font-size:0.92rem; color:#475569; margin-bottom:14px">
+      If you have any questions, concerns, or requests regarding this Privacy Policy or the App's data practices, please contact us:
+    </p>
 
-    <a class="link-row" href="mailto:privacy@spendwise.app?subject=SpendWise%20Privacy%20Policy%20Inquiry">
-      <span class="link-icon">✉️</span>
+    <a class="contact-link" href="mailto:privacy@spendwise.app?subject=SpendWise%20Privacy%20Policy%20Inquiry">
+      <span style="font-size:20px">✉️</span>
       <span>privacy@spendwise.app</span>
-      <span style="font-size:12px">↗</span>
+      <span style="font-size:12px; color:#94a3b8">↗</span>
     </a>
 
-    <p style="margin-top:12px; font-size:0.85rem; color:#94a3b8; font-style:italic">We aim to respond within 7 business days.</p>
+    <p style="margin-top:14px; font-size:0.82rem; color:#94a3b8; font-style:italic;">
+      We aim to respond to all privacy-related inquiries within 7 business days.
+    </p>
   </div>
 
+  <!-- Terms link -->
   <a class="terms-banner" href="../terms/">
     <div class="terms-banner-icon">⚖️</div>
-    <div>
+    <div style="flex:1">
       <strong>Terms &amp; Conditions</strong>
       <small>Read our full terms of service</small>
     </div>
-    <span class="terms-banner-arrow">›</span>
+    <span style="color:#6366f1; font-size:18px">›</span>
   </a>
 
-</div>
+</div><!-- /container -->
 
 <footer>
-  © 2025 SpendWise. All rights reserved.<br>
-  <a href="../" style="color:#16a34a; text-decoration:none">SpendWise Home</a>
+  <p>© 2025 SpendWise. All rights reserved.</p>
+  <p style="margin-top:4px">
+    <a href="../">Home</a> &nbsp;·&nbsp;
+    <a href="../terms/">Terms &amp; Conditions</a> &nbsp;·&nbsp;
+    <a href="mailto:privacy@spendwise.app">privacy@spendwise.app</a>
+  </p>
 </footer>
 
 </body>
