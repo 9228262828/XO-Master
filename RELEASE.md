@@ -70,7 +70,7 @@ Before uploading to Google Play Console, make sure you have:
 - [ ] **Screenshots** — at least 2 screenshots per device type (phone, tablet)
 - [ ] **Short description** — max 80 characters
 - [ ] **Full description** — max 4000 characters
-- [ ] **Privacy Policy URL** — host the privacy policy text from the app online
+- [ ] **Privacy Policy URL** — use `https://9228262828.github.io/XO-Master/privacy-policy.html` (hosted via GitHub Pages from the `docs/` folder)
 - [ ] **Content rating** — complete the IARC questionnaire
 - [ ] **Target audience** — select age groups
 
