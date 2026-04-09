@@ -1,11 +1,11 @@
 {
-    "name": "CalcPro - Smart Calculator",
-    "short_name": "CalcPro",
+    "name": "XO Master – Tic Tac Toe",
+    "short_name": "XO Master",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#1A1A2E",
     "theme_color": "#6C63FF",
-    "description": "CalcPro – A smart calculator with secure local authentication.",
+    "description": "XO Master – A modern Tic Tac Toe game.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

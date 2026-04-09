@@ -7,8 +7,7 @@ gradle-wrapper.jar
 GeneratedPluginRegistrant.java
 .cxx/
 
-# key.properties and keystores are tracked for dev builds.
-# Replace spendwise-release.jks with your own production keystore before publishing.
-# key.properties
-# **/*.keystore
-# **/*.jks
+# Signing keys – never commit production keystores
+key.properties
+**/*.keystore
+**/*.jks

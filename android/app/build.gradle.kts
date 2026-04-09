@@ -14,14 +14,13 @@ if (keyPropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.moneywise.expense.tracker"
+    namespace = "com.xomaster.game"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -29,8 +28,8 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.moneywise.expense.tracker"
-        minSdk = flutter.minSdkVersion
+        applicationId = "com.xomaster.game"
+        minSdk = 21
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -49,23 +48,22 @@ android {
 
     buildTypes {
         getByName("debug") {
-            // uses Flutter's default debug signing — no key.properties needed
+            // Uses Flutter's default debug signing
         }
         getByName("release") {
             if (keyPropertiesFile.exists()) {
                 signingConfig = signingConfigs.getByName("release")
             } else {
-                // Fall back to debug signing if key.properties is absent
                 signingConfig = signingConfigs.getByName("debug")
             }
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
-}
-
-dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
 
 flutter {

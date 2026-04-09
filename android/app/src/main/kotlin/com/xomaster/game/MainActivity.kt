@@ -1,4 +1,4 @@
-package com.moneywise.expense.tracker
+package com.xomaster.game
 
 import io.flutter.embedding.android.FlutterActivity
 

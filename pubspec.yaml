@@ -1,5 +1,5 @@
-name: spendwise
-description: "SpendWise – Smart Expense Tracker. Track, analyze, and manage your spending with ease."
+name: xo_master
+description: "XO Master – Tic Tac Toe. A modern, polished Tic Tac Toe game."
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -10,102 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-
-  # State Management
-  flutter_bloc: ^8.1.6
-  equatable: ^2.0.5
-
-  # Local Storage
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-
-  # Dependency Injection
-  get_it: ^8.0.3
-
-  # Navigation
-  go_router: ^14.6.3
-
-  # Charts
-  fl_chart: ^0.69.0
-
-  # Date/Time
-  intl: ^0.20.2
-
-  # CSV Export
-  csv: ^6.0.0
-
-  # File/Path
-  path_provider: ^2.1.4
-  share_plus: ^10.1.4
-
-  # Notifications
-  flutter_local_notifications: ^18.0.1
-  timezone: ^0.9.4
-
-  # UI
   cupertino_icons: ^1.0.8
-  flutter_native_splash: ^2.4.3
+  provider: ^6.1.2
   google_fonts: ^6.2.1
-  cached_network_image: ^3.4.1
-  lottie: ^3.1.3
-  shimmer: ^3.0.0
-
-  # Utils
-  uuid: ^4.5.1
-  collection: ^1.18.0
-  rxdart: ^0.28.0
-  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  flutter_launcher_icons: ^0.14.1
-  hive_generator: ^2.0.1
-  build_runner: ^2.4.13
-
-flutter_native_splash:
-  color: "#16A34A"
-  color_dark: "#16A34A"
-  image: assets/icon/app_icon.png
-  image_dark: assets/icon/app_icon.png
-  android: true
-  ios: true
-  android_12:
-    color: "#16A34A"
-    image: assets/icon/app_icon.png
-    icon_background_color: "#16A34A"
-  web: false
-
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  remove_alpha_ios: true
-  image_path: "assets/icon/app_icon.png"
-  min_sdk_android: 21
-  adaptive_icon_background: "#16A34A"
-  adaptive_icon_foreground: "assets/icon/app_icon_fg.png"
-  web:
-    generate: false
 
 flutter:
   uses-material-design: true
-  generate: true
-
-  assets:
-    - assets/icon/
-    - assets/images/
-    - assets/animations/
-
-  fonts:
-    - family: Poppins
-      fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
-        - asset: assets/fonts/Poppins-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Poppins-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Poppins-Bold.ttf
-          weight: 700
