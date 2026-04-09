@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../core/app_theme.dart';
@@ -7,6 +8,7 @@ import '../../../services/sound_service.dart';
 import '../../../services/theme_service.dart';
 import '../logic/game_controller.dart';
 import 'game_screen.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -69,41 +71,49 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: isDark ? AppColors.darkBgGradient : AppColors.lightBgGradient,
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28),
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                _buildTopBar(context, isDark),
-                const Spacer(flex: 3),
-                SlideTransition(
-                  position: _logoSlide,
-                  child: FadeTransition(
-                    opacity: _logoFade,
-                    child: _buildLogo(isDark),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) {
+          _showExitDialog(context, isDark);
+        }
+      },
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: isDark ? AppColors.darkBgGradient : AppColors.lightBgGradient,
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28),
+              child: Column(
+                children: [
+                  const SizedBox(height: 16),
+                  _buildTopBar(context, isDark),
+                  const Spacer(flex: 3),
+                  SlideTransition(
+                    position: _logoSlide,
+                    child: FadeTransition(
+                      opacity: _logoFade,
+                      child: _buildLogo(isDark),
+                    ),
                   ),
-                ),
-                const Spacer(flex: 2),
-                SlideTransition(
-                  position: _buttonsSlide,
-                  child: FadeTransition(
+                  const Spacer(flex: 2),
+                  SlideTransition(
+                    position: _buttonsSlide,
+                    child: FadeTransition(
+                      opacity: _buttonsFade,
+                      child: _buildMenuButtons(context, isDark),
+                    ),
+                  ),
+                  const Spacer(flex: 3),
+                  FadeTransition(
                     opacity: _buttonsFade,
-                    child: _buildMenuButtons(context, isDark),
+                    child: _buildFooter(isDark),
                   ),
-                ),
-                const Spacer(flex: 3),
-                FadeTransition(
-                  opacity: _buttonsFade,
-                  child: _buildFooter(isDark),
-                ),
-                const SizedBox(height: 24),
-              ],
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
           ),
         ),
@@ -147,6 +157,43 @@ class _HomeScreenState extends State<HomeScreen>
               color: AppColors.primary(isDark),
               size: 22,
             ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        _TopBarButton(
+          isDark: isDark,
+          onTap: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => const SettingsScreen(),
+                transitionsBuilder: (_, animation, __, child) {
+                  return FadeTransition(
+                    opacity: CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOut,
+                    ),
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.05, 0),
+                        end: Offset.zero,
+                      ).animate(CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOut,
+                      )),
+                      child: child,
+                    ),
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 350),
+                reverseTransitionDuration: const Duration(milliseconds: 250),
+              ),
+            );
+          },
+          child: Icon(
+            Icons.settings_rounded,
+            color: AppColors.primary(isDark),
+            size: 22,
           ),
         ),
       ],
@@ -330,6 +377,70 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showExitDialog(BuildContext context, bool isDark) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surface(isDark),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            const Icon(
+              Icons.exit_to_app_rounded,
+              color: AppColors.accentLight,
+              size: 24,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              'Exit Game?',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary(isDark),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          'Are you sure you want to leave XO Master?',
+          style: GoogleFonts.poppins(
+            color: AppColors.textSecondary(isDark),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              'Stay',
+              style: GoogleFonts.poppins(
+                color: AppColors.primary(isDark),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              SystemNavigator.pop();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.accentLight,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text(
+              'Exit',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

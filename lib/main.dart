@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
 import 'core/constants.dart';
 import 'features/game/logic/game_controller.dart';
-import 'features/game/presentation/home_screen.dart';
+import 'features/game/presentation/splash_screen.dart';
 import 'services/sound_service.dart';
 import 'services/theme_service.dart';
 
@@ -36,7 +36,7 @@ class XOMasterApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeService.themeMode,
-            home: const HomeScreen(),
+            home: const SplashScreen(),
           );
         },
       ),
