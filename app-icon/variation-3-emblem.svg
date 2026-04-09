@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#090d20"/>
+      <stop offset="50%" stop-color="#101838"/>
+      <stop offset="100%" stop-color="#080c1e"/>
+    </linearGradient>
+
+    <linearGradient id="ring3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a3a6e"/>
+      <stop offset="50%" stop-color="#243f7a"/>
+      <stop offset="100%" stop-color="#152d58"/>
+    </linearGradient>
+
+    <linearGradient id="xGrad3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00e5ff"/>
+      <stop offset="40%" stop-color="#00bbff"/>
+      <stop offset="100%" stop-color="#0088ee"/>
+    </linearGradient>
+
+    <linearGradient id="oGrad3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f0ff"/>
+      <stop offset="50%" stop-color="#d0d0f8"/>
+      <stop offset="100%" stop-color="#b0b0ea"/>
+    </linearGradient>
+
+    <filter id="xGlow3" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 0 0 0 0.7  0 0 0 0 1  0 0 0 0.5 0" result="cb"/>
+      <feMerge>
+        <feMergeNode in="cb"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="oGlow3" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.8  0 0 0 0 1  0 0 0 0.4 0" result="cb"/>
+      <feMerge>
+        <feMergeNode in="cb"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="drop3">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+
+    <radialGradient id="centerGlow3" cx="50%" cy="46%" r="40%">
+      <stop offset="0%" stop-color="#1a2f60" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#090d20" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="ringHighlight3" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#2a4f90"/>
+      <stop offset="100%" stop-color="#152550"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="220" ry="220" fill="url(#bg3)"/>
+  <rect width="1024" height="1024" rx="220" ry="220" fill="url(#centerGlow3)"/>
+
+  <!-- Emblem ring -->
+  <circle cx="512" cy="500" r="310" stroke="url(#ring3)" stroke-width="6" fill="none" opacity="0.5"/>
+  <circle cx="512" cy="500" r="280" stroke="url(#ringHighlight3)" stroke-width="3" fill="none" opacity="0.25"/>
+
+  <!-- Diagonal divider (X side vs O side) -->
+  <line x1="320" y1="280" x2="704" y2="720" stroke="#ffffff" stroke-width="2" opacity="0.04"/>
+
+  <!-- X - upper-left area -->
+  <g filter="url(#drop3)">
+    <g filter="url(#xGlow3)" transform="translate(300, 300)">
+      <line x1="0" y1="0" x2="200" y2="200" stroke="url(#xGrad3)" stroke-width="60" stroke-linecap="round"/>
+      <line x1="200" y1="0" x2="0" y2="200" stroke="url(#xGrad3)" stroke-width="60" stroke-linecap="round"/>
+    </g>
+    <!-- X specular highlight -->
+    <g transform="translate(300, 300)" opacity="0.25">
+      <line x1="8" y1="0" x2="95" y2="87" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- O - lower-right area -->
+  <g filter="url(#drop3)">
+    <g filter="url(#oGlow3)">
+      <circle cx="620" cy="600" r="105" stroke="url(#oGrad3)" stroke-width="52" fill="none"/>
+    </g>
+    <!-- O specular highlight -->
+    <path d="M 570 510 A 105 105 0 0 1 690 545" stroke="#ffffff" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.2"/>
+  </g>
+
+  <!-- "VS" energy line between X and O -->
+  <g opacity="0.12">
+    <line x1="470" y1="470" x2="560" y2="540" stroke="#00ccff" stroke-width="3"/>
+    <circle cx="515" cy="505" r="4" fill="#00ccff"/>
+  </g>
+
+  <!-- Top ambient glow -->
+  <ellipse cx="512" cy="160" rx="260" ry="60" fill="white" opacity="0.02"/>
+</svg>
