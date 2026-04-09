@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#0f1535"/>
+      <stop offset="40%" stop-color="#141e45"/>
+      <stop offset="100%" stop-color="#0b1028"/>
+    </linearGradient>
+
+    <linearGradient id="xGrad2a" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#42e8ff"/>
+      <stop offset="100%" stop-color="#1b8cff"/>
+    </linearGradient>
+    <linearGradient id="xGrad2b" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#42e8ff"/>
+      <stop offset="100%" stop-color="#1b8cff"/>
+    </linearGradient>
+
+    <linearGradient id="oGrad2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e040fb"/>
+      <stop offset="50%" stop-color="#ab47bc"/>
+      <stop offset="100%" stop-color="#7c27a8"/>
+    </linearGradient>
+
+    <filter id="xGlow2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.7  0 0 0 0 1  0 0 0 0.6 0" result="colorBlur"/>
+      <feMerge>
+        <feMergeNode in="colorBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="oGlow2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.7  0 0 0 0 0.15  0 0 0 0 0.85  0 0 0 0.55 0" result="colorBlur"/>
+      <feMerge>
+        <feMergeNode in="colorBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="drop2" x="-15%" y="-15%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+
+    <radialGradient id="spotlight2" cx="50%" cy="38%" r="50%">
+      <stop offset="0%" stop-color="#1e3060" stop-opacity="0.5"/>
+      <stop offset="70%" stop-color="#0f1535" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="xShadow2a" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0055aa"/>
+      <stop offset="100%" stop-color="#003377"/>
+    </linearGradient>
+    <linearGradient id="xShadow2b" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0055aa"/>
+      <stop offset="100%" stop-color="#003377"/>
+    </linearGradient>
+    <linearGradient id="oShadow2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5a1570"/>
+      <stop offset="100%" stop-color="#3d0d50"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="220" ry="220" fill="url(#bg2)"/>
+  <rect width="1024" height="1024" rx="220" ry="220" fill="url(#spotlight2)"/>
+
+  <!-- Central composition: X on left, O on right, slightly overlapping -->
+
+  <!-- X - centered left -->
+  <g filter="url(#drop2)">
+    <!-- 3D shadow layer for X -->
+    <g transform="translate(265, 310)" opacity="0.35">
+      <line x1="5" y1="5" x2="255" y2="255" stroke="url(#xShadow2a)" stroke-width="72" stroke-linecap="round"/>
+      <line x1="255" y1="5" x2="5" y2="255" stroke="url(#xShadow2b)" stroke-width="72" stroke-linecap="round"/>
+    </g>
+    <g filter="url(#xGlow2)" transform="translate(260, 305)">
+      <line x1="0" y1="0" x2="250" y2="250" stroke="url(#xGrad2a)" stroke-width="68" stroke-linecap="round"/>
+      <line x1="250" y1="0" x2="0" y2="250" stroke="url(#xGrad2b)" stroke-width="68" stroke-linecap="round"/>
+    </g>
+    <!-- Highlight on X -->
+    <g transform="translate(260, 305)" opacity="0.2">
+      <line x1="10" y1="0" x2="120" y2="110" stroke="white" stroke-width="20" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- O - centered right -->
+  <g filter="url(#drop2)">
+    <!-- 3D shadow layer for O -->
+    <circle cx="645" cy="560" r="140" stroke="url(#oShadow2)" stroke-width="68" fill="none" opacity="0.35" transform="translate(5, 5)"/>
+    <g filter="url(#oGlow2)">
+      <circle cx="645" cy="560" r="140" stroke="url(#oGrad2)" stroke-width="64" fill="none"/>
+    </g>
+    <!-- Highlight arc on O -->
+    <path d="M 580 435 A 140 140 0 0 1 740 490" stroke="white" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.18"/>
+  </g>
+
+  <!-- Subtle decorative dots (game board feel) -->
+  <g opacity="0.07" fill="#ffffff">
+    <circle cx="512" cy="440" r="5"/>
+    <circle cx="512" cy="584" r="5"/>
+  </g>
+</svg>

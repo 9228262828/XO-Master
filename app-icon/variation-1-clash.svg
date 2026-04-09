@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e27"/>
+      <stop offset="50%" stop-color="#111b3d"/>
+      <stop offset="100%" stop-color="#0d1233"/>
+    </linearGradient>
+
+    <linearGradient id="xGrad1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="50%" stop-color="#0099ff"/>
+      <stop offset="100%" stop-color="#0066dd"/>
+    </linearGradient>
+
+    <linearGradient id="oGrad1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c850f7"/>
+      <stop offset="50%" stop-color="#9b30e0"/>
+      <stop offset="100%" stop-color="#7520b5"/>
+    </linearGradient>
+
+    <filter id="xGlow1" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 0.6 0 0 0  0 0 1 0 0  0 0 0 0.55 0" result="colorBlur"/>
+      <feMerge>
+        <feMergeNode in="colorBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="oGlow1" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.6  0 0 0 0 0.1  0 0 0 0 0.9  0 0 0 0.5 0" result="colorBlur"/>
+      <feMerge>
+        <feMergeNode in="colorBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="shadow1" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+
+    <filter id="innerLight1" x="-5%" y="-5%" width="110%" height="110%">
+      <feSpecularLighting surfaceScale="2" specularConstant="0.6" specularExponent="25" lighting-color="#ffffff" result="spec">
+        <fePointLight x="400" y="200" z="300"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut"/>
+      <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="0.15" k4="0"/>
+    </filter>
+
+    <radialGradient id="bgGlow1" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#1a2a5c" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0a0e27" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="220" ry="220" fill="url(#bg1)"/>
+  <rect width="1024" height="1024" rx="220" ry="220" fill="url(#bgGlow1)"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.06" stroke="#ffffff" stroke-width="2.5">
+    <line x1="380" y1="200" x2="380" y2="824"/>
+    <line x1="644" y1="200" x2="644" y2="824"/>
+    <line x1="200" y1="380" x2="824" y2="380"/>
+    <line x1="200" y1="644" x2="824" y2="644"/>
+  </g>
+
+  <!-- X mark - positioned upper-left of center -->
+  <g filter="url(#shadow1)">
+    <g filter="url(#xGlow1)" transform="translate(310, 290)">
+      <g stroke="url(#xGrad1)" stroke-width="62" stroke-linecap="round" fill="none">
+        <line x1="0" y1="0" x2="220" y2="220"/>
+        <line x1="220" y1="0" x2="0" y2="220"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- O mark - positioned lower-right of center -->
+  <g filter="url(#shadow1)">
+    <g filter="url(#oGlow1)" transform="translate(604, 604)">
+      <circle cx="0" cy="0" r="110" stroke="url(#oGrad1)" stroke-width="58" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Ambient light highlight on top -->
+  <ellipse cx="512" cy="180" rx="300" ry="80" fill="white" opacity="0.025"/>
+</svg>
