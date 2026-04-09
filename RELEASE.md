@@ -14,6 +14,34 @@ A release keystore has been generated for signing the app.
 
 > **IMPORTANT:** Keep the keystore file (`xo-master-release.jks`) and `key.properties` safe. If you lose them, you cannot update your app on Google Play. Back them up securely. These files are excluded from git via `.gitignore`.
 
+### Generating a New Keystore
+
+If you need to generate a new keystore (first-time setup or fresh clone):
+
+```bash
+keytool -genkey -v \
+  -keystore android/app/xo-master-release.jks \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000 \
+  -alias xo-master-key \
+  -dname "CN=XO Master, OU=Development, O=XO Master, L=Unknown, ST=Unknown, C=US"
+```
+
+Then create `android/key.properties` from the example template:
+
+```bash
+cp android/key.properties.example android/key.properties
+```
+
+Edit `android/key.properties` and replace `YOUR_STORE_PASSWORD` and `YOUR_KEY_PASSWORD` with the passwords you chose during keystore generation.
+
+### Verifying the Keystore
+
+```bash
+keytool -list -v -keystore android/app/xo-master-release.jks
+```
+
 ## Building the Release
 
 ### App Bundle (recommended for Google Play)
@@ -42,7 +70,7 @@ Before uploading to Google Play Console, make sure you have:
 - [ ] **Screenshots** — at least 2 screenshots per device type (phone, tablet)
 - [ ] **Short description** — max 80 characters
 - [ ] **Full description** — max 4000 characters
-- [ ] **Privacy Policy URL** — host the privacy policy text from the app online
+- [ ] **Privacy Policy URL** — use `https://9228262828.github.io/XO-Master/privacy-policy.html` (hosted via GitHub Pages from the `docs/` folder)
 - [ ] **Content rating** — complete the IARC questionnaire
 - [ ] **Target audience** — select age groups
 

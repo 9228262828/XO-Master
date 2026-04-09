@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XO Master - Tic Tac Toe</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #141e45 50%, #0a0e27 100%);
+            color: #e0e0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .glow-cyan {
+            position: fixed;
+            top: -200px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .glow-purple {
+            position: fixed;
+            bottom: -200px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(124, 77, 255, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 24px;
+            max-width: 520px;
+            width: 100%;
+        }
+
+        .icon-wrapper {
+            margin-bottom: 32px;
+        }
+
+        .icon-wrapper img {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            box-shadow:
+                0 0 40px rgba(0, 229, 255, 0.15),
+                0 0 80px rgba(124, 77, 255, 0.1),
+                0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00e5ff 0%, #7c4dff 50%, #e040fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #8888aa;
+            margin-bottom: 48px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            background: rgba(20, 30, 69, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .link-card:hover {
+            border-color: rgba(0, 229, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 229, 255, 0.08);
+        }
+
+        .link-card.purple:hover {
+            border-color: rgba(124, 77, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(124, 77, 255, 0.08);
+        }
+
+        .link-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 22px;
+        }
+
+        .link-card .link-icon { background: rgba(0, 229, 255, 0.1); }
+        .link-card.purple .link-icon { background: rgba(124, 77, 255, 0.1); }
+
+        .link-text { text-align: left; }
+
+        .link-text h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #f0f0ff;
+            margin-bottom: 2px;
+        }
+
+        .link-text p {
+            font-size: 13px;
+            color: #8888aa;
+        }
+
+        .arrow {
+            margin-left: auto;
+            color: #555570;
+            font-size: 18px;
+            transition: transform 0.2s;
+        }
+
+        .link-card:hover .arrow { transform: translateX(4px); color: #00e5ff; }
+        .link-card.purple:hover .arrow { color: #b388ff; }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            margin-top: 60px;
+            font-size: 13px;
+            color: #444460;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-cyan"></div>
+    <div class="glow-purple"></div>
+
+    <div class="container">
+        <div class="icon-wrapper">
+            <img src="icon.png" alt="XO Master App Icon">
+        </div>
+
+        <h1>XO Master</h1>
+        <p class="subtitle">Tic Tac Toe</p>
+
+        <div class="links">
+            <a href="privacy-policy.html" class="link-card">
+                <div class="link-icon">&#128274;</div>
+                <div class="link-text">
+                    <h2>Privacy Policy</h2>
+                    <p>How we handle your data</p>
+                </div>
+                <span class="arrow">&rarr;</span>
+            </a>
+
+            <a href="terms-of-service.html" class="link-card purple">
+                <div class="link-icon">&#128220;</div>
+                <div class="link-text">
+                    <h2>Terms of Service</h2>
+                    <p>Rules for using our app</p>
+                </div>
+                <span class="arrow">&rarr;</span>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 XO Master</p>
+    </footer>
+</body>
+</html>
