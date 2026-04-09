@@ -10,9 +10,9 @@ class WinResult {
 
 class GameLogic {
   static const List<List<int>> winPatterns = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-    [0, 4, 8], [2, 4, 6],             // diagonals
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6],
   ];
 
   static WinResult? checkWinner(List<Player> board) {
@@ -52,7 +52,6 @@ class AIPlayer {
   }
 
   int _getEasyMove(List<Player> board, Player aiPlayer) {
-    // 40% chance of making the best move, 60% random
     if (_random.nextDouble() < 0.4) {
       return _getBestMove(board, aiPlayer);
     }
@@ -61,7 +60,6 @@ class AIPlayer {
   }
 
   int _getMediumMove(List<Player> board, Player aiPlayer) {
-    // 80% chance of making the best move, 20% random
     if (_random.nextDouble() < 0.8) {
       return _getBestMove(board, aiPlayer);
     }
@@ -76,7 +74,8 @@ class AIPlayer {
 
     for (final move in GameLogic.availableMoves(board)) {
       board[move] = aiPlayer;
-      int score = _minimax(board, 0, false, aiPlayer, opponent, -1000, 1000);
+      final score =
+          _minimax(board, 0, false, aiPlayer, opponent, -1000, 1000);
       board[move] = Player.none;
       if (score > bestScore) {
         bestScore = score;
@@ -98,7 +97,10 @@ class AIPlayer {
       int best = -1000;
       for (final move in GameLogic.availableMoves(board)) {
         board[move] = aiPlayer;
-        best = max(best, _minimax(board, depth + 1, false, aiPlayer, opponent, alpha, beta));
+        best = max(
+            best,
+            _minimax(
+                board, depth + 1, false, aiPlayer, opponent, alpha, beta));
         board[move] = Player.none;
         alpha = max(alpha, best);
         if (beta <= alpha) break;
@@ -108,7 +110,10 @@ class AIPlayer {
       int best = 1000;
       for (final move in GameLogic.availableMoves(board)) {
         board[move] = opponent;
-        best = min(best, _minimax(board, depth + 1, true, aiPlayer, opponent, alpha, beta));
+        best = min(
+            best,
+            _minimax(
+                board, depth + 1, true, aiPlayer, opponent, alpha, beta));
         board[move] = Player.none;
         beta = min(beta, best);
         if (beta <= alpha) break;

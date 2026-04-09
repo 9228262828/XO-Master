@@ -5,6 +5,7 @@ import 'core/app_theme.dart';
 import 'core/constants.dart';
 import 'features/game/logic/game_controller.dart';
 import 'features/game/presentation/home_screen.dart';
+import 'services/sound_service.dart';
 import 'services/theme_service.dart';
 
 void main() {
@@ -25,6 +26,7 @@ class XOMasterApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeService()),
         ChangeNotifierProvider(create: (_) => GameController()),
+        ChangeNotifierProvider(create: (_) => SoundService()),
       ],
       child: Consumer<ThemeService>(
         builder: (context, themeService, _) {

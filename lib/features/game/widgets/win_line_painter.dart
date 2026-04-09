@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/app_theme.dart';
+import '../../../core/constants.dart';
 
 class WinLineOverlay extends StatefulWidget {
   final List<int> winningLine;
@@ -13,18 +14,16 @@ class WinLineOverlay extends StatefulWidget {
 class _WinLineOverlayState extends State<WinLineOverlay>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
+  late Animation<double> _progress;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: AppConstants.winLineDuration,
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _progress = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
     _controller.forward();
   }
 
@@ -37,12 +36,12 @@ class _WinLineOverlayState extends State<WinLineOverlay>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _animation,
+      animation: _progress,
       builder: (context, child) {
         return CustomPaint(
-          painter: WinLinePainter(
+          painter: _WinLinePainter(
             winningLine: widget.winningLine,
-            progress: _animation.value,
+            progress: _progress.value,
           ),
         );
       },
@@ -50,45 +49,48 @@ class _WinLineOverlayState extends State<WinLineOverlay>
   }
 }
 
-class WinLinePainter extends CustomPainter {
+class _WinLinePainter extends CustomPainter {
   final List<int> winningLine;
   final double progress;
 
-  WinLinePainter({required this.winningLine, required this.progress});
+  _WinLinePainter({required this.winningLine, required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {
     if (winningLine.length != 3) return;
 
-    final paint = Paint()
-      ..color = AppColors.winHighlight.withOpacity(0.8)
+    final cellW = size.width / 3;
+    final cellH = size.height / 3;
+
+    Offset center(int idx) {
+      final row = idx ~/ 3;
+      final col = idx % 3;
+      return Offset(col * cellW + cellW / 2, row * cellH + cellH / 2);
+    }
+
+    final start = center(winningLine.first);
+    final end = center(winningLine.last);
+    final currentEnd = Offset.lerp(start, end, progress)!;
+
+    // Glow layer
+    final glow = Paint()
+      ..color = AppColors.winColor.withOpacity(0.25 * progress)
+      ..strokeWidth = 14
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+    canvas.drawLine(start, currentEnd, glow);
+
+    // Main line
+    final line = Paint()
+      ..color = AppColors.winColor.withOpacity(0.9)
       ..strokeWidth = 6
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-
-    final cellWidth = size.width / 3;
-    final cellHeight = size.height / 3;
-
-    Offset cellCenter(int index) {
-      final row = index ~/ 3;
-      final col = index % 3;
-      return Offset(
-        col * cellWidth + cellWidth / 2,
-        row * cellHeight + cellHeight / 2,
-      );
-    }
-
-    final start = cellCenter(winningLine.first);
-    final end = cellCenter(winningLine.last);
-    final currentEnd = Offset(
-      start.dx + (end.dx - start.dx) * progress,
-      start.dy + (end.dy - start.dy) * progress,
-    );
-
-    canvas.drawLine(start, currentEnd, paint);
+    canvas.drawLine(start, currentEnd, line);
   }
 
   @override
-  bool shouldRepaint(covariant WinLinePainter oldDelegate) =>
-      progress != oldDelegate.progress;
+  bool shouldRepaint(covariant _WinLinePainter old) =>
+      progress != old.progress;
 }

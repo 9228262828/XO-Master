@@ -5,6 +5,7 @@ import 'game_logic.dart';
 class GameController extends ChangeNotifier {
   List<Player> _board = List.filled(9, Player.none);
   Player _currentPlayer = Player.x;
+  Player _winner = Player.none;
   GameState _gameState = GameState.playing;
   GameMode _gameMode = GameMode.pvp;
   Difficulty _difficulty = Difficulty.easy;
@@ -13,11 +14,11 @@ class GameController extends ChangeNotifier {
   int _scoreO = 0;
   int _draws = 0;
   bool _isAiThinking = false;
-  int _lastPlayedCell = -1;
   AIPlayer? _aiPlayer;
 
   List<Player> get board => List.unmodifiable(_board);
   Player get currentPlayer => _currentPlayer;
+  Player get winner => _winner;
   GameState get gameState => _gameState;
   GameMode get gameMode => _gameMode;
   Difficulty get difficulty => _difficulty;
@@ -26,28 +27,21 @@ class GameController extends ChangeNotifier {
   int get scoreO => _scoreO;
   int get draws => _draws;
   bool get isAiThinking => _isAiThinking;
-  int get lastPlayedCell => _lastPlayedCell;
-
-  String get currentPlayerLabel {
-    if (_gameState != GameState.playing) return '';
-    if (_gameMode == GameMode.pvai && _currentPlayer == Player.o) {
-      return 'AI is thinking...';
-    }
-    return '${_currentPlayer == Player.x ? "X" : "O"}\'s Turn';
-  }
 
   String get statusMessage {
     switch (_gameState) {
       case GameState.won:
-        final winner = _currentPlayer == Player.x ? Player.o : Player.x;
         if (_gameMode == GameMode.pvai) {
-          return winner == Player.x ? 'You Win!' : 'AI Wins!';
+          return _winner == Player.x ? 'You Win!' : 'AI Wins!';
         }
-        return '${winner == Player.x ? "X" : "O"} Wins!';
+        return '${_winner == Player.x ? "X" : "O"} Wins!';
       case GameState.draw:
         return "It's a Draw!";
       case GameState.playing:
-        return currentPlayerLabel;
+        if (_gameMode == GameMode.pvai && _currentPlayer == Player.o) {
+          return 'AI is thinking...';
+        }
+        return '${_currentPlayer == Player.x ? "X" : "O"}\'s Turn';
     }
   }
 
@@ -57,7 +51,6 @@ class GameController extends ChangeNotifier {
       _aiPlayer = AIPlayer(difficulty: _difficulty);
     }
     resetScores();
-    notifyListeners();
   }
 
   void setDifficulty(Difficulty diff) {
@@ -66,7 +59,6 @@ class GameController extends ChangeNotifier {
       _aiPlayer = AIPlayer(difficulty: diff);
     }
     resetScores();
-    notifyListeners();
   }
 
   void resetScores() {
@@ -79,10 +71,10 @@ class GameController extends ChangeNotifier {
   void _resetBoard() {
     _board = List.filled(9, Player.none);
     _currentPlayer = Player.x;
+    _winner = Player.none;
     _gameState = GameState.playing;
     _winningLine = [];
     _isAiThinking = false;
-    _lastPlayedCell = -1;
     notifyListeners();
   }
 
@@ -98,11 +90,11 @@ class GameController extends ChangeNotifier {
     }
 
     _board[index] = _currentPlayer;
-    _lastPlayedCell = index;
 
     final result = GameLogic.checkWinner(_board);
     if (result != null) {
       _gameState = GameState.won;
+      _winner = result.winner;
       _winningLine = result.winningLine;
       if (result.winner == Player.x) {
         _scoreX++;

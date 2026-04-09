@@ -3,34 +3,108 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../core/app_theme.dart';
 import '../../../core/constants.dart';
+import '../../../services/sound_service.dart';
 import '../../../services/theme_service.dart';
 import '../logic/game_controller.dart';
 import 'game_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _entranceCtrl;
+  late Animation<double> _logoFade;
+  late Animation<Offset> _logoSlide;
+  late Animation<double> _buttonsFade;
+  late Animation<Offset> _buttonsSlide;
+
+  @override
+  void initState() {
+    super.initState();
+    _entranceCtrl = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _logoFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _entranceCtrl,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
+      ),
+    );
+    _logoSlide = Tween<Offset>(
+      begin: const Offset(0, -0.15),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _entranceCtrl,
+      curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
+    ));
+    _buttonsFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _entranceCtrl,
+        curve: const Interval(0.35, 0.8, curve: Curves.easeOut),
+      ),
+    );
+    _buttonsSlide = Tween<Offset>(
+      begin: const Offset(0, 0.15),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _entranceCtrl,
+      curve: const Interval(0.35, 0.8, curve: Curves.easeOut),
+    ));
+    _entranceCtrl.forward();
+  }
+
+  @override
+  void dispose() {
+    _entranceCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              _buildTopBar(context, isDark),
-              const Spacer(flex: 2),
-              _buildLogo(isDark, size),
-              const Spacer(flex: 1),
-              _buildMenuButtons(context, isDark),
-              const Spacer(flex: 2),
-              _buildFooter(isDark),
-              const SizedBox(height: 24),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: isDark ? AppColors.darkBgGradient : AppColors.lightBgGradient,
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                _buildTopBar(context, isDark),
+                const Spacer(flex: 3),
+                SlideTransition(
+                  position: _logoSlide,
+                  child: FadeTransition(
+                    opacity: _logoFade,
+                    child: _buildLogo(isDark),
+                  ),
+                ),
+                const Spacer(flex: 2),
+                SlideTransition(
+                  position: _buttonsSlide,
+                  child: FadeTransition(
+                    opacity: _buttonsFade,
+                    child: _buildMenuButtons(context, isDark),
+                  ),
+                ),
+                const Spacer(flex: 3),
+                FadeTransition(
+                  opacity: _buttonsFade,
+                  child: _buildFooter(isDark),
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
           ),
         ),
       ),
@@ -39,31 +113,39 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildTopBar(BuildContext context, bool isDark) {
     final themeService = context.watch<ThemeService>();
+    final soundService = context.watch<SoundService>();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: (isDark ? AppColors.surfaceDark : AppColors.surfaceLight),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-              ),
-            ],
+        _TopBarButton(
+          isDark: isDark,
+          onTap: () => soundService.toggle(),
+          child: AnimatedSwitcher(
+            duration: AppConstants.uiTransition,
+            child: Icon(
+              soundService.enabled
+                  ? Icons.volume_up_rounded
+                  : Icons.volume_off_rounded,
+              key: ValueKey(soundService.enabled),
+              color: AppColors.primary(isDark),
+              size: 22,
+            ),
           ),
-          child: IconButton(
-            onPressed: () => themeService.toggleTheme(),
-            icon: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) =>
-                  RotationTransition(turns: animation, child: child),
-              child: Icon(
-                isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                key: ValueKey(isDark),
-                color: isDark ? AppColors.primaryDark : AppColors.primaryLight,
-              ),
+        ),
+        const SizedBox(width: 8),
+        _TopBarButton(
+          isDark: isDark,
+          onTap: () => themeService.toggleTheme(context),
+          child: AnimatedSwitcher(
+            duration: AppConstants.uiTransition,
+            transitionBuilder: (child, anim) =>
+                RotationTransition(turns: anim, child: child),
+            child: Icon(
+              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              key: ValueKey(isDark),
+              color: AppColors.primary(isDark),
+              size: 22,
             ),
           ),
         ),
@@ -71,27 +153,21 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLogo(bool isDark, Size size) {
+  Widget _buildLogo(bool isDark) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 120,
-          height: 120,
+          width: 110,
+          height: 110,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [
-                AppColors.primaryLight,
-                AppColors.accentLight,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(32),
+            gradient: AppColors.brandGradient,
+            borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primaryLight.withOpacity(0.3),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
+                color: AppColors.primaryLight.withOpacity(0.35),
+                blurRadius: 28,
+                offset: const Offset(0, 10),
               ),
             ],
           ),
@@ -99,31 +175,33 @@ class HomeScreen extends StatelessWidget {
             child: Text(
               'XO',
               style: GoogleFonts.poppins(
-                fontSize: 48,
-                fontWeight: FontWeight.w800,
+                fontSize: 46,
+                fontWeight: FontWeight.w900,
                 color: Colors.white,
-                letterSpacing: 4,
+                letterSpacing: 6,
+                height: 1.1,
               ),
             ),
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 28),
         Text(
           AppConstants.appName,
           style: GoogleFonts.poppins(
-            fontSize: 36,
+            fontSize: 34,
             fontWeight: FontWeight.w800,
-            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+            color: AppColors.textPrimary(isDark),
+            letterSpacing: 1,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 2),
         Text(
-          AppConstants.appTagline,
+          AppConstants.appTagline.toUpperCase(),
           style: GoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-            letterSpacing: 2,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary(isDark),
+            letterSpacing: 4,
           ),
         ),
       ],
@@ -141,7 +219,7 @@ class HomeScreen extends StatelessWidget {
           isDark: isDark,
           onTap: () => _startGame(context, GameMode.pvp),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
         _MenuButton(
           icon: Icons.smart_toy_rounded,
           label: 'Player vs AI',
@@ -154,7 +232,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _startGame(BuildContext context, GameMode mode, [Difficulty? difficulty]) {
+  void _startGame(BuildContext context, GameMode mode,
+      [Difficulty? difficulty]) {
     final controller = context.read<GameController>();
     controller.setGameMode(mode);
     if (difficulty != null) {
@@ -166,10 +245,13 @@ class HomeScreen extends StatelessWidget {
         pageBuilder: (_, __, ___) => const GameScreen(),
         transitionsBuilder: (_, animation, __, child) {
           return FadeTransition(
-            opacity: animation,
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            ),
             child: SlideTransition(
               position: Tween<Offset>(
-                begin: const Offset(0, 0.05),
+                begin: const Offset(0, 0.04),
                 end: Offset.zero,
               ).animate(CurvedAnimation(
                 parent: animation,
@@ -180,6 +262,7 @@ class HomeScreen extends StatelessWidget {
           );
         },
         transitionDuration: const Duration(milliseconds: 400),
+        reverseTransitionDuration: const Duration(milliseconds: 300),
       ),
     );
   }
@@ -189,20 +272,26 @@ class HomeScreen extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 36),
         decoration: BoxDecoration(
-          color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+          color: AppColors.surface(isDark),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 20,
+              offset: const Offset(0, -4),
+            ),
+          ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 40,
+              width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight)
-                    .withOpacity(0.3),
+                color: AppColors.grid(isDark),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -212,34 +301,33 @@ class HomeScreen extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                color: AppColors.textPrimary(isDark),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             _DifficultyOption(
               icon: Icons.sentiment_satisfied_rounded,
               label: 'Easy',
               description: 'For casual play',
-              color: AppColors.winHighlight,
+              color: AppColors.winColor,
               isDark: isDark,
               onTap: () {
                 Navigator.pop(ctx);
                 _startGame(context, GameMode.pvai, Difficulty.easy);
               },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             _DifficultyOption(
               icon: Icons.psychology_rounded,
               label: 'Medium',
               description: 'A real challenge',
-              color: AppColors.drawHighlight,
+              color: AppColors.drawColor,
               isDark: isDark,
               onTap: () {
                 Navigator.pop(ctx);
                 _startGame(context, GameMode.pvai, Difficulty.medium);
               },
             ),
-            const SizedBox(height: 32),
           ],
         ),
       ),
@@ -248,16 +336,43 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildFooter(bool isDark) {
     return Text(
-      'Tap to start playing',
+      'Choose a mode to start',
       style: GoogleFonts.poppins(
         fontSize: 13,
-        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+        color: AppColors.textSecondary(isDark).withOpacity(0.7),
       ),
     );
   }
 }
 
-class _MenuButton extends StatelessWidget {
+class _TopBarButton extends StatelessWidget {
+  final bool isDark;
+  final VoidCallback onTap;
+  final Widget child;
+
+  const _TopBarButton({
+    required this.isDark,
+    required this.onTap,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.surface(isDark).withOpacity(isDark ? 0.4 : 1.0),
+      borderRadius: BorderRadius.circular(12),
+      elevation: isDark ? 0 : 2,
+      shadowColor: Colors.black.withOpacity(0.08),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(width: 44, height: 44, child: Center(child: child)),
+      ),
+    );
+  }
+}
+
+class _MenuButton extends StatefulWidget {
   final IconData icon;
   final String label;
   final String sublabel;
@@ -275,39 +390,81 @@ class _MenuButton extends StatelessWidget {
   });
 
   @override
+  State<_MenuButton> createState() => _MenuButtonState();
+}
+
+class _MenuButtonState extends State<_MenuButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pressCtrl;
+  late Animation<double> _pressScale;
+
+  @override
+  void initState() {
+    super.initState();
+    _pressCtrl = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _pressScale = Tween<double>(begin: 1.0, end: 0.97).animate(
+      CurvedAnimation(parent: _pressCtrl, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pressCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
+    return GestureDetector(
+      onTapDown: (_) => _pressCtrl.forward(),
+      onTapUp: (_) => _pressCtrl.reverse(),
+      onTapCancel: () => _pressCtrl.reverse(),
+      onTap: widget.onTap,
+      child: ScaleTransition(
+        scale: _pressScale,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+            color: AppColors.surface(widget.isDark)
+                .withOpacity(widget.isDark ? 0.5 : 1.0),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: color.withOpacity(0.2),
+              color: widget.color.withOpacity(0.2),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: color.withOpacity(0.08),
-                blurRadius: 16,
-                offset: const Offset(0, 4),
+                color: widget.color.withOpacity(widget.isDark ? 0.06 : 0.08),
+                blurRadius: 20,
+                offset: const Offset(0, 6),
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(widget.isDark ? 0.15 : 0.03),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
           child: Row(
             children: [
               Container(
-                width: 52,
-                height: 52,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    colors: [
+                      widget.color.withOpacity(0.15),
+                      widget.color.withOpacity(0.05),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(icon, color: color, size: 28),
+                child: Icon(widget.icon, color: widget.color, size: 26),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -315,22 +472,18 @@ class _MenuButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      label,
+                      widget.label,
                       style: GoogleFonts.poppins(
-                        fontSize: 17,
+                        fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? AppColors.textPrimaryDark
-                            : AppColors.textPrimaryLight,
+                        color: AppColors.textPrimary(widget.isDark),
                       ),
                     ),
                     Text(
-                      sublabel,
+                      widget.sublabel,
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        color: isDark
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight,
+                        fontSize: 12,
+                        color: AppColors.textSecondary(widget.isDark),
                       ),
                     ),
                   ],
@@ -338,8 +491,8 @@ class _MenuButton extends StatelessWidget {
               ),
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: color.withOpacity(0.5),
-                size: 20,
+                color: widget.color.withOpacity(0.4),
+                size: 18,
               ),
             ],
           ),
@@ -382,31 +535,29 @@ class _DifficultyOption extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(icon, color: color, size: 32),
+              Icon(icon, color: color, size: 30),
               const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: isDark
-                          ? AppColors.textPrimaryDark
-                          : AppColors.textPrimaryLight,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textPrimary(isDark),
+                      ),
                     ),
-                  ),
-                  Text(
-                    description,
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: isDark
-                          ? AppColors.textSecondaryDark
-                          : AppColors.textSecondaryLight,
+                    Text(
+                      description,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: AppColors.textSecondary(isDark),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

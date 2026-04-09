@@ -21,78 +21,118 @@ class ScoreBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildScoreCard(
-          context,
-          label: gameMode == GameMode.pvai ? 'YOU (X)' : 'X',
-          score: scoreX,
-          color: AppColors.playerX,
-          isDark: isDark,
-        ),
-        _buildScoreCard(
-          context,
-          label: 'DRAW',
-          score: draws,
-          color: AppColors.drawHighlight,
-          isDark: isDark,
-        ),
-        _buildScoreCard(
-          context,
-          label: gameMode == GameMode.pvai ? 'AI (O)' : 'O',
-          score: scoreO,
-          color: AppColors.playerO,
-          isDark: isDark,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildScoreCard(
-    BuildContext context, {
-    required String label,
-    required int score,
-    required Color color,
-    required bool isDark,
-  }) {
     return Container(
-      width: 100,
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+        color: AppColors.surface(isDark).withOpacity(isDark ? 0.5 : 1.0),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.2 : 0.06),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: Column(
+      child: Row(
         children: [
-          Text(
-            label,
-            style: GoogleFonts.poppins(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: color,
-              letterSpacing: 1.2,
+          Expanded(
+            child: _ScoreCard(
+              label: gameMode == GameMode.pvai ? 'YOU' : 'X',
+              score: scoreX,
+              color: AppColors.playerX,
+              isDark: isDark,
             ),
           ),
-          const SizedBox(height: 4),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            transitionBuilder: (child, animation) {
-              return ScaleTransition(scale: animation, child: child);
-            },
-            child: Text(
-              '$score',
-              key: ValueKey<int>(score),
-              style: GoogleFonts.poppins(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-              ),
+          Container(
+            width: 1,
+            height: 40,
+            color: AppColors.grid(isDark),
+          ),
+          Expanded(
+            child: _ScoreCard(
+              label: 'DRAW',
+              score: draws,
+              color: AppColors.drawColor,
+              isDark: isDark,
+            ),
+          ),
+          Container(
+            width: 1,
+            height: 40,
+            color: AppColors.grid(isDark),
+          ),
+          Expanded(
+            child: _ScoreCard(
+              label: gameMode == GameMode.pvai ? 'AI' : 'O',
+              score: scoreO,
+              color: AppColors.playerO,
+              isDark: isDark,
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ScoreCard extends StatelessWidget {
+  final String label;
+  final int score;
+  final Color color;
+  final bool isDark;
+
+  const _ScoreCard({
+    required this.label,
+    required this.score,
+    required this.color,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              color: color,
+              letterSpacing: 1.5,
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (child, animation) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.5),
+                end: Offset.zero,
+              ).animate(animation),
+              child: FadeTransition(opacity: animation, child: child),
+            );
+          },
+          child: Text(
+            '$score',
+            key: ValueKey<int>(score),
+            style: GoogleFonts.poppins(
+              fontSize: 26,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textPrimary(isDark),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
